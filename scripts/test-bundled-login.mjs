@@ -54,7 +54,7 @@ try {
     "glovo_preview_reorder", "glovo_remove_from_basket", "glovo_search_locations", "glovo_search_store_items",
     "glovo_select_location", "glovo_set_location", "glovo_set_quantity",
   ].sort();
-  if (JSON.stringify(toolNames) !== JSON.stringify(expectedTools)) throw new Error("Packaged runtime tool surface does not match v0.2.1.");
+  if (JSON.stringify(toolNames) !== JSON.stringify(expectedTools)) throw new Error("Packaged runtime tool surface does not match v0.2.2.");
 
   const result = await client.callTool({ name: "glovo_auth_status", arguments: {} });
   const text = result.content?.map((c) => c.text).join("\n") ?? "";

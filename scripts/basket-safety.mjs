@@ -24,6 +24,16 @@ export function normalizeBaskets(raw) {
   return raw?.baskets || raw?.data?.baskets || [];
 }
 
+// The live basket list is a summary (basketItems, no products). Snapshots and restore proofs need
+// the lines, so expand every summary entry with its full store basket.
+export async function readFullBaskets(client) {
+  const baskets = [];
+  for (const basket of normalizeBaskets(await client.getBaskets())) {
+    baskets.push(Array.isArray(basket?.products) ? basket : (await client.getBasketByStore(basket.storeId)) ?? basket);
+  }
+  return { baskets };
+}
+
 function basketHasProducts(basket) {
   return (basket?.products || []).length > 0;
 }
@@ -113,6 +123,9 @@ function isNoResourceFound(error) {
 
 export function assertMutationCompatible(snapshot, storeId) {
   const baskets = normalizeBaskets(snapshot.raw);
+  if (baskets.some((basket) => !Array.isArray(basket?.products) && Number(basket?.basketItems) > 0)) {
+    throw new Error("Refusing mutation: snapshot holds basket summaries without lines; take it with readFullBaskets.");
+  }
   const nonEmpty = baskets.some(basketHasProducts);
   const originalStore = findBasket(snapshot.raw, storeId);
   if (nonEmpty && !basketHasProducts(originalStore)) {
@@ -126,18 +139,18 @@ export function assertMutationCompatible(snapshot, storeId) {
 
 async function restoreOnce(client, snapshot, storeId, { deletedBasketIds }) {
   const originalStore = findBasket(snapshot.raw, storeId);
-  const current = await client.getBaskets();
+  const current = await readFullBaskets(client);
   const currentStore = findBasket(current, storeId);
 
   if (basketHasProducts(originalStore)) {
     if (!currentStore?.basketId) throw new Error("Original basket disappeared; cannot restore it safely.");
-    await client.updateBasketProducts(currentStore.basketId, {
+    await client.putBasket(currentStore.basketId, {
       ...currentStore,
       products: clone(originalStore.products || []),
     });
   } else if (originalStore) {
     if (!currentStore?.basketId) throw new Error("Original empty basket disappeared; cannot restore it safely.");
-    await client.updateBasketProducts(currentStore.basketId, {
+    await client.putBasket(currentStore.basketId, {
       ...currentStore,
       products: clone(originalStore.products || []),
     });
@@ -162,7 +175,7 @@ async function deleteSelectedStoreBasket(client, basketId, deletedBasketIds) {
 }
 
 async function readCanonicalMatch(client, snapshot) {
-  const last = await client.getBaskets();
+  const last = await readFullBaskets(client);
   if (JSON.stringify(canonicalBasketState(last)) === JSON.stringify(snapshot.canonical)) return last;
   throw new Error("Basket canonical state still differs after restore.");
 }

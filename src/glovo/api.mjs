@@ -3,9 +3,12 @@ import { loadSession, saveSession, tokenStatus } from "../auth/store.mjs";
 
 export class AuthError extends Error {}
 export class RateLimitError extends Error {}
+// 403 that survived token refreshes (or hit a public endpoint): the session is fine, Glovo refuses the request itself.
+export class ForbiddenError extends Error {}
 
 const API = "https://api.glovoapp.com";
 const WEB_VERSION = "v1.2476.1";
+const MAX_AUTH_REFRESHES = 2;
 const DEFAULT_LOCATION = {
   countryCode: process.env.GLOVO_COUNTRY_CODE || "ES",
   cityCode: process.env.GLOVO_CITY_CODE || "BCN",
@@ -62,9 +65,9 @@ function productAddEnabled(data) {
 function safePath(path) {
   return path
     .replace(/\/authenticated\/customers\/[^/]+/g, "/authenticated/customers/[customer]")
-    .replace(/\/baskets\/[^/]+\/products\/[^/]+/g, "/baskets/[basket]/products/[products]")
-    .replace(/\/baskets\/[^/]+\/products/g, "/baskets/[basket]/products")
-    .replace(/\/baskets\/[^/]+/g, "/baskets/[basket]");
+    .replace(/\/baskets\/(?!stores\/)[^/]+\/products\/[^/]+/g, "/baskets/[basket]/products/[products]")
+    .replace(/\/baskets\/(?!stores\/)[^/]+\/products/g, "/baskets/[basket]/products")
+    .replace(/\/baskets\/(?!stores\/)[^/]+/g, "/baskets/[basket]");
 }
 
 function redactIdentifiers(text) {
@@ -81,6 +84,33 @@ function safeErrorBody(text) {
   } catch {
     return redactIdentifiers(text).slice(0, 180);
   }
+}
+
+function errorName(text) {
+  try {
+    const parsed = JSON.parse(text);
+    return parsed?.error?.exceptionName || parsed?.error?.userInfo?.basketErrorName || null;
+  } catch {
+    return null;
+  }
+}
+
+function authFailure(label, res, { auth, refreshes }) {
+  const refreshed = refreshes ? ` after ${refreshes} token refresh${refreshes === 1 ? "" : "es"}` : "";
+  let error;
+  if (res.status === 403 && (refreshes || !auth)) {
+    error = new ForbiddenError(`${label} -> 403: ${safeErrorBody(res.text.slice(0, 300))}${refreshed}. The session is valid; Glovo refused this request, so signing in again will not help.`);
+  } else {
+    error = new AuthError(`Glovo auth failed (${res.status})${refreshed}. Run glovo_login ${refreshes ? "again" : "first"}.`);
+  }
+  error.status = res.status;
+  return error;
+}
+
+async function responseText(res) {
+  if (typeof res.text === "function") return res.text();
+  if (typeof res.json === "function") return JSON.stringify(await res.json());
+  return "";
 }
 
 function defaultSleep(ms) {
@@ -103,7 +133,7 @@ export async function withRetry(fn, { maxRetries = 3, label = "glovo" } = {}) {
     try {
       return await fn();
     } catch (error) {
-      if (attempt >= maxRetries) throw error;
+      if (attempt >= maxRetries || error instanceof AuthError || error instanceof ForbiddenError) throw error;
       const delay = retryDelay(error, attempt);
       console.error(JSON.stringify({ event: "retry", label, attempt: attempt + 1, delay_ms: delay, rate_limited: error instanceof RateLimitError }));
       await sleep(delay);
@@ -112,9 +142,10 @@ export async function withRetry(fn, { maxRetries = 3, label = "glovo" } = {}) {
 }
 
 export class GlovoClient {
-  constructor(sessionPath, { session = null } = {}) {
+  constructor(sessionPath, { session = null, httpLog = null } = {}) {
     this.sessionPath = sessionPath;
     this.session = session;
+    this.httpLog = httpLog;
     this.bits = defaultSessionBits();
   }
 
@@ -253,15 +284,31 @@ export class GlovoClient {
     return h;
   }
 
+  async send(path, { method = "GET", headers, body } = {}) {
+    const url = `${API}${path}`;
+    const started = Date.now();
+    const entry = { method, url, requestHeaders: headers, requestBody: body };
+    let res;
+    try {
+      res = await globalThis.fetch(url, { method, headers, ...(body === undefined ? {} : { body }) });
+    } catch (error) {
+      this.httpLog?.record({ ...entry, durationMs: Date.now() - started, error: error?.message || String(error) });
+      throw error;
+    }
+    const text = await responseText(res);
+    this.httpLog?.record({ ...entry, status: res.status, responseHeaders: res.headers, responseBody: text, durationMs: Date.now() - started });
+    return { ok: res.ok, status: res.status, text };
+  }
+
   async refresh() {
     if (!this.session?.refreshToken) throw new AuthError("Glovo session expired. Run glovo_login again.");
-    const res = await globalThis.fetch(`${API}/oauth/refresh`, {
+    const res = await this.send("/oauth/refresh", {
       method: "POST",
       headers: this.baseHeaders(),
       body: JSON.stringify({ refreshToken: this.session.refreshToken }),
     });
     if (!res.ok) throw new AuthError(`Glovo refresh failed (${res.status}). Run glovo_login again.`);
-    const data = await res.json();
+    const data = JSON.parse(res.text);
     const c = data?.access?.accessToken ? data.access : data;
     this.session = {
       ...this.session,
@@ -285,27 +332,28 @@ export class GlovoClient {
 
   async call(path, { method = "GET", body, auth = false, allowNotFound = false } = {}) {
     if (auth) await this.ensureAuth();
-    const res = await globalThis.fetch(`${API}${path}`, {
-      method,
-      headers: this.baseHeaders({ auth }),
-      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    });
-    if (res.status === 401 || res.status === 403) {
-      if (auth && this.session?.refreshToken) {
-        await this.refresh();
-        return this.call(path, { method, body, auth, allowNotFound });
+    const payload = body === undefined ? undefined : JSON.stringify(body);
+    const label = `${method} ${safePath(path.split("?")[0])}`;
+    for (let refreshes = 0; ; refreshes += 1) {
+      const res = await this.send(path, { method, headers: this.baseHeaders({ auth }), body: payload });
+      if (res.status === 401 || res.status === 403) {
+        if (auth && this.session?.refreshToken && refreshes < MAX_AUTH_REFRESHES) {
+          console.error(JSON.stringify({ event: "auth_refresh", label, status: res.status, attempt: refreshes + 1, max: MAX_AUTH_REFRESHES }));
+          await this.refresh();
+          continue;
+        }
+        throw authFailure(label, res, { auth, refreshes });
       }
-      throw new AuthError(`Glovo auth failed (${res.status}). Run glovo_login first.`);
+      if (res.status === 204 || (allowNotFound && res.status === 404)) return null;
+      if (!res.ok) {
+        const text = res.text.slice(0, 300);
+        const error = res.status === 429 ? new RateLimitError(`${label} -> ${res.status}: ${safeErrorBody(text)}`) : new Error(`${label} -> ${res.status}: ${safeErrorBody(text)}`);
+        error.status = res.status;
+        error.exceptionName = errorName(text);
+        throw error;
+      }
+      return res.text ? JSON.parse(res.text) : null;
     }
-    if (res.status === 204 || (allowNotFound && res.status === 404)) return null;
-    if (!res.ok) {
-      const text = (await res.text()).slice(0, 300);
-      const message = `${method} ${safePath(path.split("?")[0])} -> ${res.status}: ${safeErrorBody(text)}`;
-      const error = res.status === 429 ? new RateLimitError(message) : new Error(message);
-      error.status = res.status;
-      throw error;
-    }
-    return res.json();
   }
 
   getMe() {
@@ -426,101 +474,71 @@ export class GlovoClient {
     return this.call(`/v1/authenticated/customers/${id}/baskets/stores/${storeId}`, { auth: true, allowNotFound: true });
   }
 
-  createBasket({ storeId, storeAddressId, storeCategoryId, product }) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    if (!storeCategoryId || Number(storeCategoryId) === 0) throw new Error("storeCategoryId is required for new basket creation.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets`, {
-      method: "POST",
-      auth: true,
-      body: {
-        products: [product],
-        storeId: asNumberIfNumeric(storeId),
-        storeAddressId: asNumberIfNumeric(storeAddressId),
-        storeCategoryId: asNumberIfNumeric(storeCategoryId),
-        handlingStrategy: "DELIVERY",
-      },
-    });
+  // Glovo web Cart SDK v2: always returns a basket for the store; a store without one yields a DRAFT basket
+  // with a fresh basketId that only becomes real on the first PUT. The v1 POST create endpoint now answers 403.
+  getStoreBasket(storeId, storeAddressId) {
+    if (storeId == null || storeId === "") throw new Error("storeId is required.");
+    if (storeAddressId == null || storeAddressId === "") throw new Error("storeAddressId is required.");
+    const params = new URLSearchParams({ storeAddressId: String(storeAddressId) });
+    return this.call(`/v2/baskets/stores/${encodeURIComponent(storeId)}?${params.toString()}`, { auth: true });
   }
 
-  updateBasketProducts(basketId, payload) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets/${encodeURIComponent(basketId)}/products`, {
+  putBasket(basketId, basket) {
+    return this.call(`/v2/baskets/${encodeURIComponent(basketId)}`, {
       method: "PUT",
       auth: true,
-      body: payload,
-    });
-  }
-
-  updateProductQuantity(basketId, payload) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets/${encodeURIComponent(basketId)}/products/quantity`, {
-      method: "PATCH",
-      auth: true,
-      body: payload,
+      body: basket,
     });
   }
 
   deleteBasket(basketId) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets/${encodeURIComponent(basketId)}`, {
+    return this.call(`/v2/baskets/${encodeURIComponent(basketId)}`, {
       method: "DELETE",
       auth: true,
       allowNotFound: true,
     });
   }
 
+  // Every basket write goes through the web Cart SDK v2 shape: read the store basket, change a clone,
+  // PUT the whole basket back. A stale basket version is re-read and retried once, like the web client.
+  async updateStoreBasket(storeId, storeAddressId, change) {
+    for (let attempt = 0; ; attempt += 1) {
+      const basket = await this.getStoreBasket(storeId, storeAddressId);
+      if (!basket?.basketId) throw new Error(`Glovo returned no basket for store ${storeId}.`);
+      try {
+        return await this.putBasket(basket.basketId, change(basket));
+      } catch (error) {
+        if (attempt === 0 && error?.exceptionName === "OLD_BASKET_VERSION") continue;
+        throw error;
+      }
+    }
+  }
+
+  async storeAddressIdForBasket(storeId, storeAddressId) {
+    if (storeAddressId != null && storeAddressId !== "") return storeAddressId;
+    const basket = normalizeBasketList(await this.getBaskets()).find((entry) => String(entry.storeId) === String(storeId));
+    if (!basket?.storeAddressId) throw new Error(`No active basket for store ${storeId}.`);
+    return basket.storeAddressId;
+  }
+
   async addToBasket({ storeId, storeAddressId, storeCategoryId, productId, externalId, storeProductId, quantity = 1, selectedOptions = [], productView = null }) {
     if (productView) validateSelectedOptions(productView, selectedOptions);
     const product = basketProduct({ productId, externalId, storeProductId, quantity, selectedOptions, productView });
-    const basket = await this.getBasketByStore(storeId);
-    if (!basket) return this.createBasket({ storeId, storeAddressId, storeCategoryId, product });
-    const existing = findBasketProduct(basket, { productId, storeProductId });
-    if (existing?.ids?.basketProductId) {
-      return this.updateProductQuantity(basket.basketId, {
-        handlingStrategy: basket.handlingStrategy || "DELIVERY",
-        basketVersion: basket.basketVersion,
-        products: [{ basketProductId: existing.ids.basketProductId, quantity: (existing.quantity?.increments || 0) + quantity }],
-      });
-    }
-    return this.updateBasketProducts(basket.basketId, {
-      ...basket,
-      products: [...(basket.products || []), product],
+    return this.updateStoreBasket(storeId, storeAddressId, (basket) => basketWithProduct(basket, product, { storeCategoryId }));
+  }
+
+  async setQuantity({ storeId, storeAddressId, productId, storeProductId, basketProductId, quantity }) {
+    const addressId = await this.storeAddressIdForBasket(storeId, storeAddressId);
+    return this.updateStoreBasket(storeId, addressId, (basket) => {
+      if (!basket.products?.length) throw new Error(`No active basket for store ${storeId}.`);
+      const line = findBasketProduct(basket, { productId, storeProductId, basketProductId });
+      if (!line?.ids?.basketProductId) throw new Error("Product is not in the basket.");
+      return basketWithQuantity(basket, line.ids.basketProductId, quantity);
     });
   }
 
-  async setQuantity({ storeId, productId, storeProductId, basketProductId, quantity }) {
-    const basket = await this.getBasketByStore(storeId);
-    if (!basket?.basketId) throw new Error(`No active basket for store ${storeId}.`);
-    const product = findBasketProduct(basket, { productId, storeProductId, basketProductId });
-    const id = basketProductId || product?.ids?.basketProductId;
-    if (!id) throw new Error("Product is not in the basket.");
-    if (quantity <= 0) return this.updateProductQuantity(basket.basketId, {
-      handlingStrategy: basket.handlingStrategy || "DELIVERY",
-      basketVersion: basket.basketVersion,
-      products: [{ basketProductId: id, quantity: 0 }],
-    });
-    return this.updateProductQuantity(basket.basketId, {
-      handlingStrategy: basket.handlingStrategy || "DELIVERY",
-      basketVersion: basket.basketVersion,
-      products: [{ basketProductId: id, quantity }],
-    });
-  }
-
-  async removeFromBasket({ storeId, productId, storeProductId, basketProductId }) {
-    const basket = await this.getBasketByStore(storeId);
-    if (!basket?.basketId) throw new Error(`No active basket for store ${storeId}.`);
-    const product = findBasketProduct(basket, { productId, storeProductId, basketProductId });
-    const id = basketProductId || product?.ids?.basketProductId;
-    if (!id) throw new Error("Product is not in the basket.");
-    return this.updateProductQuantity(basket.basketId, {
-      handlingStrategy: basket.handlingStrategy || "DELIVERY",
-      basketVersion: basket.basketVersion,
-      products: [{ basketProductId: id, quantity: 0 }],
-    });
+  removeFromBasket({ storeId, storeAddressId, productId, storeProductId, basketProductId }) {
+    return this.setQuantity({ storeId, storeAddressId, productId, storeProductId, basketProductId, quantity: 0 });
   }
 
   getOrders({ offset = 0, limit = 15 } = {}) {
@@ -1325,6 +1343,46 @@ export function basketProduct({ productId, externalId, storeProductId, quantity 
   const customizations = customizationPayload(productView, selectedOptions);
   if (customizations.length) product.customizations = customizations;
   return product;
+}
+
+function customizationKey(customizations) {
+  return (Array.isArray(customizations) ? customizations : [])
+    .map((c) => `${c?.ids?.groupLegacyId ?? c?.ids?.groupId ?? ""}:${c?.ids?.legacyId ?? c?.ids?.externalId ?? c?.ids?.id ?? ""}x${c?.quantity?.increments ?? 1}`)
+    .sort()
+    .join("|");
+}
+
+// Mirrors the web Cart SDK addProduct: same product id with the same customizations bumps the
+// existing line, anything else becomes a new line. The whole basket is sent back on PUT.
+export function basketWithProduct(basket, product, { storeCategoryId } = {}) {
+  const next = structuredClone(basket);
+  next.products = Array.isArray(next.products) ? next.products : [];
+  next.handlingStrategy = next.handlingStrategy || "DELIVERY";
+  if (!next.products.length && (next.storeCategoryId == null || Number(next.storeCategoryId) === 0)) {
+    if (!storeCategoryId || Number(storeCategoryId) === 0) throw new Error("storeCategoryId is required for new basket creation.");
+    next.storeCategoryId = asNumberIfNumeric(storeCategoryId);
+  }
+  const key = customizationKey(product.customizations);
+  const existing = next.products.find((line) => line?.ids?.id === product.ids.id && customizationKey(line.customizations) === key);
+  if (existing) existing.quantity = { ...existing.quantity, increments: (existing.quantity?.increments || 0) + product.quantity.increments };
+  else next.products.push(product);
+  return next;
+}
+
+// Mirrors the web Cart SDK quantity change: set the line's increments, or drop the line at zero.
+export function basketWithQuantity(basket, basketProductId, quantity) {
+  const next = structuredClone(basket);
+  next.products = Array.isArray(next.products) ? next.products : [];
+  const index = next.products.findIndex((line) => line?.ids?.basketProductId === String(basketProductId));
+  if (index === -1) throw new Error("Product is not in the basket.");
+  if (quantity <= 0) next.products.splice(index, 1);
+  else next.products[index].quantity = { ...next.products[index].quantity, increments: quantity };
+  return next;
+}
+
+function normalizeBasketList(raw) {
+  if (Array.isArray(raw)) return raw;
+  return raw?.baskets || raw?.data?.baskets || [];
 }
 
 export function storeCategoryIdFromStore(store) {

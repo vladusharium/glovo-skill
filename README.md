@@ -149,7 +149,21 @@ npm run test:mcp:auth
 - Every chosen product is re-fetched and must have `add_enabled=true`. Three product identifiers, the store category, and all required/optional modifier identities are preserved for later basket review.
 - `glovo_plan_reorder` is read-only. Glovo exposes an order-summary navigation token, but no safe native basket-only reorder endpoint was proven, so this project does not guess one.
 - Basket writes are real. Snapshot first, obtain explicit approval, verify each mutation, and restore on test failure.
+- Every basket write follows Glovo's current web Cart SDK v2: read the store basket (`GET /v2/baskets/stores/{storeId}`, a `DRAFT` for a store without one), change a copy, and send the whole basket back (`PUT /v2/baskets/{basketId}`). Add merges a repeated product into its line, set changes the line quantity, and remove drops the line; removing the last line deletes the basket. Whole-basket deletion uses `DELETE /v2/baskets/{basketId}`. The old v1 create endpoint now answers `403 Forbidden`.
+- A `401`/`403` on an authenticated call triggers at most two token refreshes. A `403` that survives a fresh token is reported as a refused request, not as a login problem, and is never retried in a loop.
 - No checkout, payment, delivery-slot booking, or order-placement API is included.
+
+## HTTP Log
+
+The MCP server appends every Glovo API request and response, including token refreshes and network failures, as one JSON line to `logs/glovo-http-YYYY-MM-DD.log` next to `session.json` (for Claude Desktop and Codex: `~/.glovo/logs/`). Files older than three days are deleted on the first write of each day.
+
+Authorization and cookie headers, token, secret, password, and API-key fields or query parameters, and any JWT or `Bearer` value inside a body are replaced with `[redacted]`. Bodies over 128 KiB are truncated. Responses still contain account data such as names, addresses, and orders, so the directory is created `0700` and files `0600`.
+
+| Variable | Default | Effect |
+| --- | --- | --- |
+| `GLOVO_HTTP_LOG` | on | `0` disables the log |
+| `GLOVO_LOG_DIR` | `<session dir>/logs` | Log directory |
+| `GLOVO_LOG_RETENTION_DAYS` | `3` | Days kept, today included |
 
 ## Verify a Checkout-Free Build
 

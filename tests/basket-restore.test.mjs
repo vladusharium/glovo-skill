@@ -7,6 +7,7 @@ import {
   canonicalBasketState,
   createBasketSnapshot,
   persistPrivateSnapshot,
+  readFullBaskets,
   removePrivateSnapshot,
   withBasketRestore,
 } from "../scripts/basket-safety.mjs";
@@ -79,7 +80,7 @@ class FakeBasketClient {
     return clone(this.find(storeId) || null);
   }
 
-  async updateBasketProducts(basketId, payload) {
+  async putBasket(basketId, payload) {
     this.updateCalls += 1;
     if (this.failUpdates-- > 0) throw new Error("transient update failure");
     const index = this.raw.baskets.findIndex((entry) => entry.basketId === basketId);
@@ -131,6 +132,29 @@ removePrivateSnapshot(snapshotFile);
 assert.equal(existsSync(snapshotFile.file), false);
 
 assert.throws(() => assertMutationCompatible(createBasketSnapshot({ baskets: [basket("other-store")] }), "store-1"), /cross-store/);
+assert.throws(
+  () => assertMutationCompatible(createBasketSnapshot([{ basketId: "basket-store-1", storeId: "store-1", storeAddressId: "address-store-1", basketItems: 1 }]), "store-1"),
+  /summaries without lines/,
+);
+
+{
+  const full = basket("store-1", [line("original")]);
+  const summaryClient = {
+    storeCalls: [],
+    async getBaskets() {
+      return [{ basketId: full.basketId, storeId: full.storeId, storeAddressId: full.storeAddressId, basketItems: 1 }];
+    },
+    async getBasketByStore(storeId) {
+      this.storeCalls.push(storeId);
+      return clone(full);
+    },
+  };
+  const expanded = await readFullBaskets(summaryClient);
+  assert.deepEqual(summaryClient.storeCalls, ["store-1"]);
+  assert.deepEqual(canonicalBasketState(expanded), canonicalBasketState({ baskets: [full] }));
+  assert.notDeepEqual(canonicalBasketState(expanded), canonicalBasketState(await summaryClient.getBaskets()), "summaries alone would hide the lines");
+  assertMutationCompatible(createBasketSnapshot(expanded), "store-1");
+}
 assert.throws(
   () => assertMutationCompatible(createBasketSnapshot({ baskets: [basket("store-1", [line("with-options", 1, { attributes: [{ attributeId: "a" }] })])] }), "store-1"),
   /option-bearing/,
@@ -312,4 +336,4 @@ assert.throws(
 }
 
 assert.deepEqual(tempSnapshotDirs(), initialTempDirs);
-console.log("basket-restore.test: 13 safety cases passed");
+console.log("basket-restore.test: 15 safety cases passed");

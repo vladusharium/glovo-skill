@@ -3243,8 +3243,8 @@ var require_utils = __commonJS2({
       }
       return ind;
     }
-    function removeDotSegments(path2) {
-      let input = path2;
+    function removeDotSegments(path3) {
+      let input = path3;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3496,8 +3496,8 @@ var require_schemes = __commonJS2({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path2, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path2 && path2 !== "/" ? path2 : void 0;
+        const [path3, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path3 && path3 !== "/" ? path3 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -8710,7 +8710,7 @@ var require_utilsBundle = __commonJS2({
     var require_main = __commonJS3({
       "node_modules/dotenv/lib/main.js"(exports22, module22) {
         var fs = __require("fs");
-        var path2 = __require("path");
+        var path3 = __require("path");
         var os2 = __require("os");
         var crypto4 = __require("crypto");
         var packageJson = require_package();
@@ -8826,7 +8826,7 @@ var require_utilsBundle = __commonJS2({
               possibleVaultPath = options2.path.endsWith(".vault") ? options2.path : `${options2.path}.vault`;
             }
           } else {
-            possibleVaultPath = path2.resolve(process.cwd(), ".env.vault");
+            possibleVaultPath = path3.resolve(process.cwd(), ".env.vault");
           }
           if (fs.existsSync(possibleVaultPath)) {
             return possibleVaultPath;
@@ -8834,7 +8834,7 @@ var require_utilsBundle = __commonJS2({
           return null;
         }
         function _resolveHome(envPath) {
-          return envPath[0] === "~" ? path2.join(os2.homedir(), envPath.slice(1)) : envPath;
+          return envPath[0] === "~" ? path3.join(os2.homedir(), envPath.slice(1)) : envPath;
         }
         function _configVault(options2) {
           const debug22 = Boolean(options2 && options2.debug);
@@ -8851,7 +8851,7 @@ var require_utilsBundle = __commonJS2({
           return { parsed };
         }
         function configDotenv(options2) {
-          const dotenvPath = path2.resolve(process.cwd(), ".env");
+          const dotenvPath = path3.resolve(process.cwd(), ".env");
           let encoding = "utf8";
           const debug22 = Boolean(options2 && options2.debug);
           const quiet = options2 && "quiet" in options2 ? options2.quiet : true;
@@ -8896,7 +8896,7 @@ var require_utilsBundle = __commonJS2({
             const shortPaths = [];
             for (const filePath of optionPaths) {
               try {
-                const relative = path2.relative(process.cwd(), filePath);
+                const relative = path3.relative(process.cwd(), filePath);
                 shortPaths.push(relative);
               } catch (e) {
                 if (debug22) {
@@ -11039,9 +11039,9 @@ var require_utilsBundle = __commonJS2({
             return a < 0 ? 0 : a > 255 ? 255 : a;
           }
           constructor.prototype = {
-            load: function load(path2) {
+            load: function load(path3) {
               var xhr = new XMLHttpRequest();
-              xhr.open("GET", path2, true);
+              xhr.open("GET", path3, true);
               xhr.responseType = "arraybuffer";
               xhr.onload = (function() {
                 var data = new Uint8Array(xhr.response || xhr.mozResponseArrayBuffer);
@@ -11641,11 +11641,11 @@ var require_utilsBundle = __commonJS2({
             }
           }
         };
-        Mime.prototype.getType = function(path2) {
-          path2 = String(path2);
-          let last = path2.replace(/^.*[/\\]/, "").toLowerCase();
+        Mime.prototype.getType = function(path3) {
+          path3 = String(path3);
+          let last = path3.replace(/^.*[/\\]/, "").toLowerCase();
           let ext = last.replace(/^.*\./, "").toLowerCase();
-          let hasPath = last.length < path2.length;
+          let hasPath = last.length < path3.length;
           let hasDot = ext.length < last.length - 1;
           return (hasDot || !hasPath) && this._types[ext] || null;
         };
@@ -11891,7 +11891,7 @@ var require_utilsBundle = __commonJS2({
       "node_modules/minimatch/minimatch.js"(exports22, module22) {
         module22.exports = minimatch2;
         minimatch2.Minimatch = Minimatch;
-        var path2 = (function() {
+        var path3 = (function() {
           try {
             return __require("path");
           } catch (e) {
@@ -11899,7 +11899,7 @@ var require_utilsBundle = __commonJS2({
         })() || {
           sep: "/"
         };
-        minimatch2.sep = path2.sep;
+        minimatch2.sep = path3.sep;
         var GLOBSTAR = minimatch2.GLOBSTAR = Minimatch.GLOBSTAR = {};
         var expand = require_brace_expansion();
         var plTypes = {
@@ -11988,8 +11988,8 @@ var require_utilsBundle = __commonJS2({
           assertValidPattern(pattern);
           if (!options2) options2 = {};
           pattern = pattern.trim();
-          if (!options2.allowWindowsEscape && path2.sep !== "/") {
-            pattern = pattern.split(path2.sep).join("/");
+          if (!options2.allowWindowsEscape && path3.sep !== "/") {
+            pattern = pattern.split(path3.sep).join("/");
           }
           this.options = options2;
           this.maxGlobstarRecursion = options2.maxGlobstarRecursion !== void 0 ? options2.maxGlobstarRecursion : 200;
@@ -12360,8 +12360,8 @@ var require_utilsBundle = __commonJS2({
           if (this.empty) return f === "";
           if (f === "/" && partial22) return true;
           var options2 = this.options;
-          if (path2.sep !== "/") {
-            f = f.split(path2.sep).join("/");
+          if (path3.sep !== "/") {
+            f = f.split(path3.sep).join("/");
           }
           f = f.split(slashSplit);
           this.debug(this.pattern, "split", f);
@@ -12637,13 +12637,13 @@ var require_utilsBundle = __commonJS2({
     });
     var require_open = __commonJS3({
       "node_modules/open/index.js"(exports22, module22) {
-        var path2 = __require("path");
+        var path3 = __require("path");
         var childProcess5 = __require("child_process");
         var { promises: fs, constants: fsConstants } = __require("fs");
         var isWsl = require_is_wsl();
         var isDocker = require_is_docker();
         var defineLazyProperty = require_define_lazy_prop();
-        var localXdgOpenPath = path2.join(__dirname, "xdg-open");
+        var localXdgOpenPath = path3.join(__dirname, "xdg-open");
         var { platform, arch } = process;
         var getWslDrivesMountPoint = /* @__PURE__ */ (() => {
           const defaultMountPoint = "/mnt/";
@@ -16023,7 +16023,7 @@ ${itemIndentStr}`);
       "node_modules/commander/lib/command.js"(exports22) {
         var EventEmitter = __require("node:events").EventEmitter;
         var childProcess5 = __require("node:child_process");
-        var path2 = __require("node:path");
+        var path3 = __require("node:path");
         var fs = __require("node:fs");
         var process5 = __require("node:process");
         var { Argument: Argument2, humanReadableArgName } = require_argument();
@@ -17023,9 +17023,9 @@ Expecting one of '${allowedValues.join("', '")}'`);
             let launchWithNode = false;
             const sourceExt = [".js", ".ts", ".tsx", ".mjs", ".cjs"];
             function findFile(baseDir, baseName) {
-              const localBin = path2.resolve(baseDir, baseName);
+              const localBin = path3.resolve(baseDir, baseName);
               if (fs.existsSync(localBin)) return localBin;
-              if (sourceExt.includes(path2.extname(baseName))) return void 0;
+              if (sourceExt.includes(path3.extname(baseName))) return void 0;
               const foundExt = sourceExt.find(
                 (ext) => fs.existsSync(`${localBin}${ext}`)
               );
@@ -17043,17 +17043,17 @@ Expecting one of '${allowedValues.join("', '")}'`);
               } catch {
                 resolvedScriptPath = this._scriptPath;
               }
-              executableDir = path2.resolve(
-                path2.dirname(resolvedScriptPath),
+              executableDir = path3.resolve(
+                path3.dirname(resolvedScriptPath),
                 executableDir
               );
             }
             if (executableDir) {
               let localFile = findFile(executableDir, executableFile);
               if (!localFile && !subcommand._executableFile && this._scriptPath) {
-                const legacyName = path2.basename(
+                const legacyName = path3.basename(
                   this._scriptPath,
-                  path2.extname(this._scriptPath)
+                  path3.extname(this._scriptPath)
                 );
                 if (legacyName !== this._name) {
                   localFile = findFile(
@@ -17064,7 +17064,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
               }
               executableFile = localFile || executableFile;
             }
-            launchWithNode = sourceExt.includes(path2.extname(executableFile));
+            launchWithNode = sourceExt.includes(path3.extname(executableFile));
             let proc;
             if (process5.platform !== "win32") {
               if (launchWithNode) {
@@ -17911,7 +17911,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
            * @return {Command}
            */
           nameFromFilename(filename) {
-            this._name = path2.basename(filename, path2.extname(filename));
+            this._name = path3.basename(filename, path3.extname(filename));
             return this;
           }
           /**
@@ -26155,17 +26155,17 @@ Expecting one of '${allowedValues.join("', '")}'`);
         visit.BREAK = BREAK;
         visit.SKIP = SKIP;
         visit.REMOVE = REMOVE;
-        function visit_(key, node, visitor, path2) {
-          const ctrl = callVisitor(key, node, visitor, path2);
+        function visit_(key, node, visitor, path3) {
+          const ctrl = callVisitor(key, node, visitor, path3);
           if (identity.isNode(ctrl) || identity.isPair(ctrl)) {
-            replaceNode(key, path2, ctrl);
-            return visit_(key, ctrl, visitor, path2);
+            replaceNode(key, path3, ctrl);
+            return visit_(key, ctrl, visitor, path3);
           }
           if (typeof ctrl !== "symbol") {
             if (identity.isCollection(node)) {
-              path2 = Object.freeze(path2.concat(node));
+              path3 = Object.freeze(path3.concat(node));
               for (let i = 0; i < node.items.length; ++i) {
-                const ci = visit_(i, node.items[i], visitor, path2);
+                const ci = visit_(i, node.items[i], visitor, path3);
                 if (typeof ci === "number")
                   i = ci - 1;
                 else if (ci === BREAK)
@@ -26176,13 +26176,13 @@ Expecting one of '${allowedValues.join("', '")}'`);
                 }
               }
             } else if (identity.isPair(node)) {
-              path2 = Object.freeze(path2.concat(node));
-              const ck = visit_("key", node.key, visitor, path2);
+              path3 = Object.freeze(path3.concat(node));
+              const ck = visit_("key", node.key, visitor, path3);
               if (ck === BREAK)
                 return BREAK;
               else if (ck === REMOVE)
                 node.key = null;
-              const cv = visit_("value", node.value, visitor, path2);
+              const cv = visit_("value", node.value, visitor, path3);
               if (cv === BREAK)
                 return BREAK;
               else if (cv === REMOVE)
@@ -26203,17 +26203,17 @@ Expecting one of '${allowedValues.join("', '")}'`);
         visitAsync.BREAK = BREAK;
         visitAsync.SKIP = SKIP;
         visitAsync.REMOVE = REMOVE;
-        async function visitAsync_(key, node, visitor, path2) {
-          const ctrl = await callVisitor(key, node, visitor, path2);
+        async function visitAsync_(key, node, visitor, path3) {
+          const ctrl = await callVisitor(key, node, visitor, path3);
           if (identity.isNode(ctrl) || identity.isPair(ctrl)) {
-            replaceNode(key, path2, ctrl);
-            return visitAsync_(key, ctrl, visitor, path2);
+            replaceNode(key, path3, ctrl);
+            return visitAsync_(key, ctrl, visitor, path3);
           }
           if (typeof ctrl !== "symbol") {
             if (identity.isCollection(node)) {
-              path2 = Object.freeze(path2.concat(node));
+              path3 = Object.freeze(path3.concat(node));
               for (let i = 0; i < node.items.length; ++i) {
-                const ci = await visitAsync_(i, node.items[i], visitor, path2);
+                const ci = await visitAsync_(i, node.items[i], visitor, path3);
                 if (typeof ci === "number")
                   i = ci - 1;
                 else if (ci === BREAK)
@@ -26224,13 +26224,13 @@ Expecting one of '${allowedValues.join("', '")}'`);
                 }
               }
             } else if (identity.isPair(node)) {
-              path2 = Object.freeze(path2.concat(node));
-              const ck = await visitAsync_("key", node.key, visitor, path2);
+              path3 = Object.freeze(path3.concat(node));
+              const ck = await visitAsync_("key", node.key, visitor, path3);
               if (ck === BREAK)
                 return BREAK;
               else if (ck === REMOVE)
                 node.key = null;
-              const cv = await visitAsync_("value", node.value, visitor, path2);
+              const cv = await visitAsync_("value", node.value, visitor, path3);
               if (cv === BREAK)
                 return BREAK;
               else if (cv === REMOVE)
@@ -26257,23 +26257,23 @@ Expecting one of '${allowedValues.join("', '")}'`);
           }
           return visitor;
         }
-        function callVisitor(key, node, visitor, path2) {
+        function callVisitor(key, node, visitor, path3) {
           if (typeof visitor === "function")
-            return visitor(key, node, path2);
+            return visitor(key, node, path3);
           if (identity.isMap(node))
-            return visitor.Map?.(key, node, path2);
+            return visitor.Map?.(key, node, path3);
           if (identity.isSeq(node))
-            return visitor.Seq?.(key, node, path2);
+            return visitor.Seq?.(key, node, path3);
           if (identity.isPair(node))
-            return visitor.Pair?.(key, node, path2);
+            return visitor.Pair?.(key, node, path3);
           if (identity.isScalar(node))
-            return visitor.Scalar?.(key, node, path2);
+            return visitor.Scalar?.(key, node, path3);
           if (identity.isAlias(node))
-            return visitor.Alias?.(key, node, path2);
+            return visitor.Alias?.(key, node, path3);
           return void 0;
         }
-        function replaceNode(key, path2, node) {
-          const parent = path2[path2.length - 1];
+        function replaceNode(key, path3, node) {
+          const parent = path3[path3.length - 1];
           if (identity.isCollection(parent)) {
             parent.items[key] = node;
           } else if (identity.isPair(parent)) {
@@ -26863,10 +26863,10 @@ Expecting one of '${allowedValues.join("', '")}'`);
         var createNode = require_createNode();
         var identity = require_identity();
         var Node2 = require_Node();
-        function collectionFromPath(schema, path2, value2) {
+        function collectionFromPath(schema, path3, value2) {
           let v = value2;
-          for (let i = path2.length - 1; i >= 0; --i) {
-            const k = path2[i];
+          for (let i = path3.length - 1; i >= 0; --i) {
+            const k = path3[i];
             if (typeof k === "number" && Number.isInteger(k) && k >= 0) {
               const a = [];
               a[k] = v;
@@ -26885,7 +26885,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
             sourceObjects: /* @__PURE__ */ new Map()
           });
         }
-        var isEmptyPath = (path2) => path2 == null || typeof path2 === "object" && !!path2[Symbol.iterator]().next().done;
+        var isEmptyPath = (path3) => path3 == null || typeof path3 === "object" && !!path3[Symbol.iterator]().next().done;
         var Collection = class extends Node2.NodeBase {
           constructor(type3, schema) {
             super(type3);
@@ -26915,11 +26915,11 @@ Expecting one of '${allowedValues.join("', '")}'`);
            * be a Pair instance or a `{ key, value }` object, which may not have a key
            * that already exists in the map.
            */
-          addIn(path2, value2) {
-            if (isEmptyPath(path2))
+          addIn(path3, value2) {
+            if (isEmptyPath(path3))
               this.add(value2);
             else {
-              const [key, ...rest] = path2;
+              const [key, ...rest] = path3;
               const node = this.get(key, true);
               if (identity.isCollection(node))
                 node.addIn(rest, value2);
@@ -26933,8 +26933,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
            * Removes a value from the collection.
            * @returns `true` if the item was found and removed.
            */
-          deleteIn(path2) {
-            const [key, ...rest] = path2;
+          deleteIn(path3) {
+            const [key, ...rest] = path3;
             if (rest.length === 0)
               return this.delete(key);
             const node = this.get(key, true);
@@ -26948,8 +26948,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
            * scalar values from their surrounding node; to disable set `keepScalar` to
            * `true` (collections are always returned intact).
            */
-          getIn(path2, keepScalar) {
-            const [key, ...rest] = path2;
+          getIn(path3, keepScalar) {
+            const [key, ...rest] = path3;
             const node = this.get(key, true);
             if (rest.length === 0)
               return !keepScalar && identity.isScalar(node) ? node.value : node;
@@ -26967,8 +26967,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
           /**
            * Checks if the collection includes a value with the key `key`.
            */
-          hasIn(path2) {
-            const [key, ...rest] = path2;
+          hasIn(path3) {
+            const [key, ...rest] = path3;
             if (rest.length === 0)
               return this.has(key);
             const node = this.get(key, true);
@@ -26978,8 +26978,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
            * Sets a value in this collection. For `!!set`, `value` needs to be a
            * boolean to add/remove the item from the set.
            */
-          setIn(path2, value2) {
-            const [key, ...rest] = path2;
+          setIn(path3, value2) {
+            const [key, ...rest] = path3;
             if (rest.length === 0) {
               this.set(key, value2);
             } else {
@@ -29421,9 +29421,9 @@ ${cn.comment}` : item.comment;
               this.contents.add(value2);
           }
           /** Adds a value to the document. */
-          addIn(path2, value2) {
+          addIn(path3, value2) {
             if (assertCollection(this.contents))
-              this.contents.addIn(path2, value2);
+              this.contents.addIn(path3, value2);
           }
           /**
            * Create a new `Alias` node, ensuring that the target `node` has the required anchor.
@@ -29498,14 +29498,14 @@ ${cn.comment}` : item.comment;
            * Removes a value from the document.
            * @returns `true` if the item was found and removed.
            */
-          deleteIn(path2) {
-            if (Collection.isEmptyPath(path2)) {
+          deleteIn(path3) {
+            if (Collection.isEmptyPath(path3)) {
               if (this.contents == null)
                 return false;
               this.contents = null;
               return true;
             }
-            return assertCollection(this.contents) ? this.contents.deleteIn(path2) : false;
+            return assertCollection(this.contents) ? this.contents.deleteIn(path3) : false;
           }
           /**
            * Returns item at `key`, or `undefined` if not found. By default unwraps
@@ -29520,10 +29520,10 @@ ${cn.comment}` : item.comment;
            * scalar values from their surrounding node; to disable set `keepScalar` to
            * `true` (collections are always returned intact).
            */
-          getIn(path2, keepScalar) {
-            if (Collection.isEmptyPath(path2))
+          getIn(path3, keepScalar) {
+            if (Collection.isEmptyPath(path3))
               return !keepScalar && identity.isScalar(this.contents) ? this.contents.value : this.contents;
-            return identity.isCollection(this.contents) ? this.contents.getIn(path2, keepScalar) : void 0;
+            return identity.isCollection(this.contents) ? this.contents.getIn(path3, keepScalar) : void 0;
           }
           /**
            * Checks if the document includes a value with the key `key`.
@@ -29534,10 +29534,10 @@ ${cn.comment}` : item.comment;
           /**
            * Checks if the document includes a value at `path`.
            */
-          hasIn(path2) {
-            if (Collection.isEmptyPath(path2))
+          hasIn(path3) {
+            if (Collection.isEmptyPath(path3))
               return this.contents !== void 0;
-            return identity.isCollection(this.contents) ? this.contents.hasIn(path2) : false;
+            return identity.isCollection(this.contents) ? this.contents.hasIn(path3) : false;
           }
           /**
            * Sets a value in this document. For `!!set`, `value` needs to be a
@@ -29554,13 +29554,13 @@ ${cn.comment}` : item.comment;
            * Sets a value in this document. For `!!set`, `value` needs to be a
            * boolean to add/remove the item from the set.
            */
-          setIn(path2, value2) {
-            if (Collection.isEmptyPath(path2)) {
+          setIn(path3, value2) {
+            if (Collection.isEmptyPath(path3)) {
               this.contents = value2;
             } else if (this.contents == null) {
-              this.contents = Collection.collectionFromPath(this.schema, Array.from(path2), value2);
+              this.contents = Collection.collectionFromPath(this.schema, Array.from(path3), value2);
             } else if (assertCollection(this.contents)) {
-              this.contents.setIn(path2, value2);
+              this.contents.setIn(path3, value2);
             }
           }
           /**
@@ -31477,9 +31477,9 @@ ${end.comment}` : end.comment;
         visit.BREAK = BREAK;
         visit.SKIP = SKIP;
         visit.REMOVE = REMOVE;
-        visit.itemAtPath = (cst, path2) => {
+        visit.itemAtPath = (cst, path3) => {
           let item = cst;
-          for (const [field, index] of path2) {
+          for (const [field, index] of path3) {
             const tok = item?.[field];
             if (tok && "items" in tok) {
               item = tok.items[index];
@@ -31488,23 +31488,23 @@ ${end.comment}` : end.comment;
           }
           return item;
         };
-        visit.parentCollection = (cst, path2) => {
-          const parent = visit.itemAtPath(cst, path2.slice(0, -1));
-          const field = path2[path2.length - 1][0];
+        visit.parentCollection = (cst, path3) => {
+          const parent = visit.itemAtPath(cst, path3.slice(0, -1));
+          const field = path3[path3.length - 1][0];
           const coll = parent?.[field];
           if (coll && "items" in coll)
             return coll;
           throw new Error("Parent collection not found");
         };
-        function _visit(path2, item, visitor) {
-          let ctrl = visitor(item, path2);
+        function _visit(path3, item, visitor) {
+          let ctrl = visitor(item, path3);
           if (typeof ctrl === "symbol")
             return ctrl;
           for (const field of ["key", "value"]) {
             const token = item[field];
             if (token && "items" in token) {
               for (let i = 0; i < token.items.length; ++i) {
-                const ci = _visit(Object.freeze(path2.concat([[field, i]])), token.items[i], visitor);
+                const ci = _visit(Object.freeze(path3.concat([[field, i]])), token.items[i], visitor);
                 if (typeof ci === "number")
                   i = ci - 1;
                 else if (ci === BREAK)
@@ -31515,10 +31515,10 @@ ${end.comment}` : end.comment;
                 }
               }
               if (typeof ctrl === "function" && field === "key")
-                ctrl = ctrl(item, path2);
+                ctrl = ctrl(item, path3);
             }
           }
-          return typeof ctrl === "function" ? ctrl(item, path2) : ctrl;
+          return typeof ctrl === "function" ? ctrl(item, path3) : ctrl;
         }
         exports22.visit = visit;
       }
@@ -34482,16 +34482,16 @@ ${end.comment}` : end.comment;
         }
         exports22.urlGenerate = urlGenerate;
         function normalize(aPath) {
-          var path2 = aPath;
+          var path3 = aPath;
           var url22 = urlParse(aPath);
           if (url22) {
             if (!url22.path) {
               return aPath;
             }
-            path2 = url22.path;
+            path3 = url22.path;
           }
-          var isAbsolute = exports22.isAbsolute(path2);
-          var parts = path2.split(/\/+/);
+          var isAbsolute = exports22.isAbsolute(path3);
+          var parts = path3.split(/\/+/);
           for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
             part = parts[i];
             if (part === ".") {
@@ -34508,15 +34508,15 @@ ${end.comment}` : end.comment;
               }
             }
           }
-          path2 = parts.join("/");
-          if (path2 === "") {
-            path2 = isAbsolute ? "/" : ".";
+          path3 = parts.join("/");
+          if (path3 === "") {
+            path3 = isAbsolute ? "/" : ".";
           }
           if (url22) {
-            url22.path = path2;
+            url22.path = path3;
             return urlGenerate(url22);
           }
-          return path2;
+          return path3;
         }
         exports22.normalize = normalize;
         function join2(aRoot, aPath) {
@@ -36116,7 +36116,7 @@ ${end.comment}` : end.comment;
     var require_source_map_support = __commonJS3({
       "node_modules/source-map-support/source-map-support.js"(exports22, module22) {
         var SourceMapConsumer = require_source_map().SourceMapConsumer;
-        var path2 = __require("path");
+        var path3 = __require("path");
         var fs;
         try {
           fs = __require("fs");
@@ -36213,15 +36213,15 @@ ${end.comment}` : end.comment;
         });
         function supportRelativeURL(file22, url22) {
           if (!file22) return url22;
-          var dir = path2.dirname(file22);
+          var dir = path3.dirname(file22);
           var match = /^\w+:\/\/[^\/]*/.exec(dir);
           var protocol = match ? match[0] : "";
           var startPath = dir.slice(protocol.length);
           if (protocol && /^\/\w\:/.test(startPath)) {
             protocol += "/";
-            return protocol + path2.resolve(dir.slice(protocol.length), url22).replace(/\\/g, "/");
+            return protocol + path3.resolve(dir.slice(protocol.length), url22).replace(/\\/g, "/");
           }
-          return protocol + path2.resolve(dir.slice(protocol.length), url22);
+          return protocol + path3.resolve(dir.slice(protocol.length), url22);
         }
         function retrieveSourceMapURL(source11) {
           var fileData;
@@ -40942,7 +40942,7 @@ ${end.comment}` : end.comment;
     var require_constants6 = __commonJS3({
       "node_modules/readdirp/node_modules/picomatch/lib/constants.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var WIN_SLASH = "\\\\/";
         var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
         var DEFAULT_MAX_EXTGLOB_RECURSION = 0;
@@ -41116,7 +41116,7 @@ ${end.comment}` : end.comment;
           /* | */
           CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279,
           /* \uFEFF */
-          SEP: path2.sep,
+          SEP: path3.sep,
           /**
            * Create EXTGLOB_CHARS
            */
@@ -41141,7 +41141,7 @@ ${end.comment}` : end.comment;
     var require_utils3 = __commonJS3({
       "node_modules/readdirp/node_modules/picomatch/lib/utils.js"(exports22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var win32 = process.platform === "win32";
         var {
           REGEX_BACKSLASH,
@@ -41170,7 +41170,7 @@ ${end.comment}` : end.comment;
           if (options2 && typeof options2.windows === "boolean") {
             return options2.windows;
           }
-          return win32 === true || path2.sep === "\\";
+          return win32 === true || path3.sep === "\\";
         };
         exports22.escapeLast = (input, char, lastIdx) => {
           const idx = input.lastIndexOf(char, lastIdx);
@@ -42528,7 +42528,7 @@ ${end.comment}` : end.comment;
     var require_picomatch = __commonJS3({
       "node_modules/readdirp/node_modules/picomatch/lib/picomatch.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var scan = require_scan();
         var parse32 = require_parse2();
         var utils2 = require_utils3();
@@ -42613,7 +42613,7 @@ ${end.comment}` : end.comment;
         };
         picomatch.matchBase = (input, glob, options2, posix = utils2.isWindows(options2)) => {
           const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options2);
-          return regex.test(path2.basename(input));
+          return regex.test(path3.basename(input));
         };
         picomatch.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
         picomatch.parse = (pattern, options2) => {
@@ -42725,8 +42725,8 @@ ${end.comment}` : end.comment;
             return {
               root: ".",
               /* eslint-disable no-unused-vars */
-              fileFilter: (path2) => true,
-              directoryFilter: (path2) => true,
+              fileFilter: (path3) => true,
+              directoryFilter: (path3) => true,
               /* eslint-enable no-unused-vars */
               type: FILE_TYPE,
               lstat: false,
@@ -42746,7 +42746,7 @@ ${end.comment}` : end.comment;
             this._directoryFilter = normalizeFilter(opts.directoryFilter);
             const statMethod = opts.lstat ? lstat : stat;
             if (wantBigintFsStats) {
-              this._stat = (path2) => statMethod(path2, { bigint: true });
+              this._stat = (path3) => statMethod(path3, { bigint: true });
             } else {
               this._stat = statMethod;
             }
@@ -42767,9 +42767,9 @@ ${end.comment}` : end.comment;
             this.reading = true;
             try {
               while (!this.destroyed && batch > 0) {
-                const { path: path2, depth, files = [] } = this.parent || {};
+                const { path: path3, depth, files = [] } = this.parent || {};
                 if (files.length > 0) {
-                  const slice = files.splice(0, batch).map((dirent) => this._formatEntry(dirent, path2));
+                  const slice = files.splice(0, batch).map((dirent) => this._formatEntry(dirent, path3));
                   for (const entry of await Promise.all(slice)) {
                     if (this.destroyed) return;
                     const entryType = await this._getEntryType(entry);
@@ -42804,20 +42804,20 @@ ${end.comment}` : end.comment;
               this.reading = false;
             }
           }
-          async _exploreDir(path2, depth) {
+          async _exploreDir(path3, depth) {
             let files;
             try {
-              files = await readdir(path2, this._rdOptions);
+              files = await readdir(path3, this._rdOptions);
             } catch (error482) {
               this._onError(error482);
             }
-            return { files, depth, path: path2 };
+            return { files, depth, path: path3 };
           }
-          async _formatEntry(dirent, path2) {
+          async _formatEntry(dirent, path3) {
             let entry;
             try {
               const basename = this._isDirent ? dirent.name : dirent;
-              const fullPath = sysPath.resolve(sysPath.join(path2, basename));
+              const fullPath = sysPath.resolve(sysPath.join(path3, basename));
               entry = { path: sysPath.relative(this._root, fullPath), fullPath, basename };
               entry[this._statsProp] = this._isDirent ? dirent : await this._stat(fullPath);
             } catch (err) {
@@ -42901,7 +42901,7 @@ ${end.comment}` : end.comment;
     var require_constants7 = __commonJS3({
       "node_modules/anymatch/node_modules/picomatch/lib/constants.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var WIN_SLASH = "\\\\/";
         var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
         var DEFAULT_MAX_EXTGLOB_RECURSION = 0;
@@ -43075,7 +43075,7 @@ ${end.comment}` : end.comment;
           /* | */
           CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279,
           /* \uFEFF */
-          SEP: path2.sep,
+          SEP: path3.sep,
           /**
            * Create EXTGLOB_CHARS
            */
@@ -43100,7 +43100,7 @@ ${end.comment}` : end.comment;
     var require_utils4 = __commonJS3({
       "node_modules/anymatch/node_modules/picomatch/lib/utils.js"(exports22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var win32 = process.platform === "win32";
         var {
           REGEX_BACKSLASH,
@@ -43129,7 +43129,7 @@ ${end.comment}` : end.comment;
           if (options2 && typeof options2.windows === "boolean") {
             return options2.windows;
           }
-          return win32 === true || path2.sep === "\\";
+          return win32 === true || path3.sep === "\\";
         };
         exports22.escapeLast = (input, char, lastIdx) => {
           const idx = input.lastIndexOf(char, lastIdx);
@@ -44487,7 +44487,7 @@ ${end.comment}` : end.comment;
     var require_picomatch3 = __commonJS3({
       "node_modules/anymatch/node_modules/picomatch/lib/picomatch.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var scan = require_scan2();
         var parse32 = require_parse3();
         var utils2 = require_utils4();
@@ -44572,7 +44572,7 @@ ${end.comment}` : end.comment;
         };
         picomatch.matchBase = (input, glob, options2, posix = utils2.isWindows(options2)) => {
           const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options2);
-          return regex.test(path2.basename(input));
+          return regex.test(path3.basename(input));
         };
         picomatch.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
         picomatch.parse = (pattern, options2) => {
@@ -44631,22 +44631,22 @@ ${end.comment}` : end.comment;
     });
     var require_normalize_path = __commonJS3({
       "node_modules/normalize-path/index.js"(exports22, module22) {
-        module22.exports = function(path2, stripTrailing) {
-          if (typeof path2 !== "string") {
+        module22.exports = function(path3, stripTrailing) {
+          if (typeof path3 !== "string") {
             throw new TypeError("expected path to be a string");
           }
-          if (path2 === "\\" || path2 === "/") return "/";
-          var len = path2.length;
-          if (len <= 1) return path2;
+          if (path3 === "\\" || path3 === "/") return "/";
+          var len = path3.length;
+          if (len <= 1) return path3;
           var prefix = "";
-          if (len > 4 && path2[3] === "\\") {
-            var ch = path2[2];
-            if ((ch === "?" || ch === ".") && path2.slice(0, 2) === "\\\\") {
-              path2 = path2.slice(2);
+          if (len > 4 && path3[3] === "\\") {
+            var ch = path3[2];
+            if ((ch === "?" || ch === ".") && path3.slice(0, 2) === "\\\\") {
+              path3 = path3.slice(2);
               prefix = "//";
             }
           }
-          var segs = path2.split(/[/\\]+/);
+          var segs = path3.split(/[/\\]+/);
           if (stripTrailing !== false && segs[segs.length - 1] === "") {
             segs.pop();
           }
@@ -44682,17 +44682,17 @@ ${end.comment}` : end.comment;
           if (!isList && typeof _path !== "string") {
             throw new TypeError("anymatch: second argument must be a string: got " + Object.prototype.toString.call(_path));
           }
-          const path2 = normalizePath(_path, false);
+          const path3 = normalizePath(_path, false);
           for (let index = 0; index < negPatterns.length; index++) {
             const nglob = negPatterns[index];
-            if (nglob(path2)) {
+            if (nglob(path3)) {
               return returnIndex ? -1 : false;
             }
           }
-          const applied = isList && [path2].concat(args.slice(1));
+          const applied = isList && [path3].concat(args.slice(1));
           for (let index = 0; index < patterns.length; index++) {
             const pattern = patterns[index];
-            if (isList ? pattern(...applied) : pattern(path2)) {
+            if (isList ? pattern(...applied) : pattern(path3)) {
               return returnIndex ? index : true;
             }
           }
@@ -46227,10 +46227,10 @@ ${end.comment}` : end.comment;
     var require_is_binary_path = __commonJS3({
       "node_modules/is-binary-path/index.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var binaryExtensions = require_binary_extensions2();
         var extensions = new Set(binaryExtensions);
-        module22.exports = (filePath) => extensions.has(path2.extname(filePath).slice(1).toLowerCase());
+        module22.exports = (filePath) => extensions.has(path3.extname(filePath).slice(1).toLowerCase());
       }
     });
     var require_constants9 = __commonJS3({
@@ -46359,20 +46359,20 @@ ${end.comment}` : end.comment;
         };
         var isEmptySet = (val) => val instanceof Set ? val.size === 0 : !val;
         var FsWatchInstances = /* @__PURE__ */ new Map();
-        function createFsWatchInstance(path2, options2, listener, errHandler, emitRaw) {
+        function createFsWatchInstance(path3, options2, listener, errHandler, emitRaw) {
           const handleEvent = (rawEvent, evPath) => {
-            listener(path2);
-            emitRaw(rawEvent, evPath, { watchedPath: path2 });
-            if (evPath && path2 !== evPath) {
+            listener(path3);
+            emitRaw(rawEvent, evPath, { watchedPath: path3 });
+            if (evPath && path3 !== evPath) {
               fsWatchBroadcast(
-                sysPath.resolve(path2, evPath),
+                sysPath.resolve(path3, evPath),
                 KEY_LISTENERS,
-                sysPath.join(path2, evPath)
+                sysPath.join(path3, evPath)
               );
             }
           };
           try {
-            return fs.watch(path2, options2, handleEvent);
+            return fs.watch(path3, options2, handleEvent);
           } catch (error482) {
             errHandler(error482);
           }
@@ -46384,13 +46384,13 @@ ${end.comment}` : end.comment;
             listener(val1, val2, val3);
           });
         };
-        var setFsWatchListener = (path2, fullPath, options2, handlers) => {
+        var setFsWatchListener = (path3, fullPath, options2, handlers) => {
           const { listener, errHandler, rawEmitter } = handlers;
           let cont = FsWatchInstances.get(fullPath);
           let watcher;
           if (!options2.persistent) {
             watcher = createFsWatchInstance(
-              path2,
+              path3,
               options2,
               listener,
               errHandler,
@@ -46404,7 +46404,7 @@ ${end.comment}` : end.comment;
             addAndConvert(cont, KEY_RAW, rawEmitter);
           } else {
             watcher = createFsWatchInstance(
-              path2,
+              path3,
               options2,
               fsWatchBroadcast.bind(null, fullPath, KEY_LISTENERS),
               errHandler,
@@ -46417,7 +46417,7 @@ ${end.comment}` : end.comment;
               cont.watcherUnusable = true;
               if (isWindows && error482.code === "EPERM") {
                 try {
-                  const fd = await open22(path2, "r");
+                  const fd = await open22(path3, "r");
                   await close3(fd);
                   broadcastErr(error482);
                 } catch (err) {
@@ -46448,7 +46448,7 @@ ${end.comment}` : end.comment;
           };
         };
         var FsWatchFileInstances = /* @__PURE__ */ new Map();
-        var setFsWatchFileListener = (path2, fullPath, options2, handlers) => {
+        var setFsWatchFileListener = (path3, fullPath, options2, handlers) => {
           const { listener, rawEmitter } = handlers;
           let cont = FsWatchFileInstances.get(fullPath);
           let listeners = /* @__PURE__ */ new Set();
@@ -46474,7 +46474,7 @@ ${end.comment}` : end.comment;
                 });
                 const currmtime = curr.mtimeMs;
                 if (curr.size !== prev.size || currmtime > prev.mtimeMs || currmtime === 0) {
-                  foreach(cont.listeners, (listener2) => listener2(path2, curr));
+                  foreach(cont.listeners, (listener2) => listener2(path3, curr));
                 }
               })
             };
@@ -46505,24 +46505,24 @@ ${end.comment}` : end.comment;
            * @param {Function} listener on fs change
            * @returns {Function} closer for the watcher instance
            */
-          _watchWithNodeFs(path2, listener) {
+          _watchWithNodeFs(path3, listener) {
             const opts = this.fsw.options;
-            const directory = sysPath.dirname(path2);
-            const basename = sysPath.basename(path2);
+            const directory = sysPath.dirname(path3);
+            const basename = sysPath.basename(path3);
             const parent = this.fsw._getWatchedDir(directory);
             parent.add(basename);
-            const absolutePath = sysPath.resolve(path2);
+            const absolutePath = sysPath.resolve(path3);
             const options2 = { persistent: opts.persistent };
             if (!listener) listener = EMPTY_FN;
             let closer;
             if (opts.usePolling) {
               options2.interval = opts.enableBinaryInterval && isBinaryPath(basename) ? opts.binaryInterval : opts.interval;
-              closer = setFsWatchFileListener(path2, absolutePath, options2, {
+              closer = setFsWatchFileListener(path3, absolutePath, options2, {
                 listener,
                 rawEmitter: this.fsw._emitRaw
               });
             } else {
-              closer = setFsWatchListener(path2, absolutePath, options2, {
+              closer = setFsWatchListener(path3, absolutePath, options2, {
                 listener,
                 errHandler: this._boundHandleError,
                 rawEmitter: this.fsw._emitRaw
@@ -46546,7 +46546,7 @@ ${end.comment}` : end.comment;
             const parent = this.fsw._getWatchedDir(dirname4);
             let prevStats = stats2;
             if (parent.has(basename)) return;
-            const listener = async (path2, newStats) => {
+            const listener = async (path3, newStats) => {
               if (!this.fsw._throttle(THROTTLE_MODE_WATCH, file22, 5)) return;
               if (!newStats || newStats.mtimeMs === 0) {
                 try {
@@ -46558,9 +46558,9 @@ ${end.comment}` : end.comment;
                     this.fsw._emit(EV_CHANGE, file22, newStats2);
                   }
                   if (isLinux && prevStats.ino !== newStats2.ino) {
-                    this.fsw._closeFile(path2);
+                    this.fsw._closeFile(path3);
                     prevStats = newStats2;
-                    this.fsw._addPathCloser(path2, this._watchWithNodeFs(file22, listener));
+                    this.fsw._addPathCloser(path3, this._watchWithNodeFs(file22, listener));
                   } else {
                     prevStats = newStats2;
                   }
@@ -46591,7 +46591,7 @@ ${end.comment}` : end.comment;
            * @param {String} item basename of this item
            * @returns {Promise<Boolean>} true if no more processing is needed for this entry.
            */
-          async _handleSymlink(entry, directory, path2, item) {
+          async _handleSymlink(entry, directory, path3, item) {
             if (this.fsw.closed) {
               return;
             }
@@ -46601,7 +46601,7 @@ ${end.comment}` : end.comment;
               this.fsw._incrReadyCount();
               let linkPath;
               try {
-                linkPath = await fsrealpath(path2);
+                linkPath = await fsrealpath(path3);
               } catch (e) {
                 this.fsw._emitReady();
                 return true;
@@ -46610,12 +46610,12 @@ ${end.comment}` : end.comment;
               if (dir.has(item)) {
                 if (this.fsw._symlinkPaths.get(full) !== linkPath) {
                   this.fsw._symlinkPaths.set(full, linkPath);
-                  this.fsw._emit(EV_CHANGE, path2, entry.stats);
+                  this.fsw._emit(EV_CHANGE, path3, entry.stats);
                 }
               } else {
                 dir.add(item);
                 this.fsw._symlinkPaths.set(full, linkPath);
-                this.fsw._emit(EV_ADD, path2, entry.stats);
+                this.fsw._emit(EV_ADD, path3, entry.stats);
               }
               this.fsw._emitReady();
               return true;
@@ -46643,9 +46643,9 @@ ${end.comment}` : end.comment;
                 return;
               }
               const item = entry.path;
-              let path2 = sysPath.join(directory, item);
+              let path3 = sysPath.join(directory, item);
               current.add(item);
-              if (entry.stats.isSymbolicLink() && await this._handleSymlink(entry, directory, path2, item)) {
+              if (entry.stats.isSymbolicLink() && await this._handleSymlink(entry, directory, path3, item)) {
                 return;
               }
               if (this.fsw.closed) {
@@ -46654,8 +46654,8 @@ ${end.comment}` : end.comment;
               }
               if (item === target || !target && !previous.has(item)) {
                 this.fsw._incrReadyCount();
-                path2 = sysPath.join(dir, sysPath.relative(dir, path2));
-                this._addToNodeFs(path2, initialAdd, wh, depth + 1);
+                path3 = sysPath.join(dir, sysPath.relative(dir, path3));
+                this._addToNodeFs(path3, initialAdd, wh, depth + 1);
               }
             }).on(EV_ERROR, this._boundHandleError);
             return new Promise(
@@ -46725,13 +46725,13 @@ ${end.comment}` : end.comment;
            * @param {String=} target Child path actually targeted for watch
            * @returns {Promise}
            */
-          async _addToNodeFs(path2, initialAdd, priorWh, depth, target) {
+          async _addToNodeFs(path3, initialAdd, priorWh, depth, target) {
             const ready = this.fsw._emitReady;
-            if (this.fsw._isIgnored(path2) || this.fsw.closed) {
+            if (this.fsw._isIgnored(path3) || this.fsw.closed) {
               ready();
               return false;
             }
-            const wh = this.fsw._getWatchHelpers(path2, depth);
+            const wh = this.fsw._getWatchHelpers(path3, depth);
             if (!wh.hasGlob && priorWh) {
               wh.hasGlob = priorWh.hasGlob;
               wh.globFilter = priorWh.globFilter;
@@ -46745,11 +46745,11 @@ ${end.comment}` : end.comment;
                 ready();
                 return false;
               }
-              const follow = this.fsw.options.followSymlinks && !path2.includes(STAR) && !path2.includes(BRACE_START);
+              const follow = this.fsw.options.followSymlinks && !path3.includes(STAR) && !path3.includes(BRACE_START);
               let closer;
               if (stats2.isDirectory()) {
-                const absPath = sysPath.resolve(path2);
-                const targetPath = follow ? await fsrealpath(path2) : path2;
+                const absPath = sysPath.resolve(path3);
+                const targetPath = follow ? await fsrealpath(path3) : path3;
                 if (this.fsw.closed) return;
                 closer = await this._handleDir(wh.watchPath, stats2, initialAdd, depth, target, wh, targetPath);
                 if (this.fsw.closed) return;
@@ -46757,26 +46757,26 @@ ${end.comment}` : end.comment;
                   this.fsw._symlinkPaths.set(absPath, targetPath);
                 }
               } else if (stats2.isSymbolicLink()) {
-                const targetPath = follow ? await fsrealpath(path2) : path2;
+                const targetPath = follow ? await fsrealpath(path3) : path3;
                 if (this.fsw.closed) return;
                 const parent = sysPath.dirname(wh.watchPath);
                 this.fsw._getWatchedDir(parent).add(wh.watchPath);
                 this.fsw._emit(EV_ADD, wh.watchPath, stats2);
-                closer = await this._handleDir(parent, stats2, initialAdd, depth, path2, wh, targetPath);
+                closer = await this._handleDir(parent, stats2, initialAdd, depth, path3, wh, targetPath);
                 if (this.fsw.closed) return;
                 if (targetPath !== void 0) {
-                  this.fsw._symlinkPaths.set(sysPath.resolve(path2), targetPath);
+                  this.fsw._symlinkPaths.set(sysPath.resolve(path3), targetPath);
                 }
               } else {
                 closer = this._handleFile(wh.watchPath, stats2, initialAdd);
               }
               ready();
-              this.fsw._addPathCloser(path2, closer);
+              this.fsw._addPathCloser(path3, closer);
               return false;
             } catch (error482) {
               if (this.fsw._handleError(error482)) {
                 ready();
-                return path2;
+                return path3;
               }
             }
           }
@@ -46848,18 +46848,18 @@ ${end.comment}` : end.comment;
           131840,
           262912
         ]);
-        var createFSEventsInstance = (path2, callback) => {
-          const stop = fsevents.watch(path2, callback);
+        var createFSEventsInstance = (path3, callback) => {
+          const stop = fsevents.watch(path3, callback);
           return { stop };
         };
-        function setFSEventsListener(path2, realPath, listener, rawEmitter) {
+        function setFSEventsListener(path3, realPath, listener, rawEmitter) {
           let watchPath = sysPath.extname(realPath) ? sysPath.dirname(realPath) : realPath;
           const parentPath = sysPath.dirname(watchPath);
           let cont = FSEventsWatchers.get(watchPath);
           if (couldConsolidate(parentPath)) {
             watchPath = parentPath;
           }
-          const resolvedPath = sysPath.resolve(path2);
+          const resolvedPath = sysPath.resolve(path3);
           const hasSymlink = resolvedPath !== realPath;
           const filteredListener = (fullPath, flags, info) => {
             if (hasSymlink) fullPath = fullPath.replace(realPath, resolvedPath);
@@ -46904,10 +46904,10 @@ ${end.comment}` : end.comment;
             }
           };
         }
-        var couldConsolidate = (path2) => {
+        var couldConsolidate = (path3) => {
           let count = 0;
           for (const watchPath of FSEventsWatchers.keys()) {
-            if (watchPath.indexOf(path2) === 0) {
+            if (watchPath.indexOf(path3) === 0) {
               count++;
               if (count >= consolidateThreshhold) {
                 return true;
@@ -46917,9 +46917,9 @@ ${end.comment}` : end.comment;
           return false;
         };
         var canUse = () => fsevents && FSEventsWatchers.size < 128;
-        var calcDepth = (path2, root) => {
+        var calcDepth = (path3, root) => {
           let i = 0;
-          while (!path2.indexOf(root) && (path2 = sysPath.dirname(path2)) !== root) i++;
+          while (!path3.indexOf(root) && (path3 = sysPath.dirname(path3)) !== root) i++;
           return i;
         };
         var sameTypes = (info, stats2) => info.type === FSEVENT_TYPE_DIRECTORY && stats2.isDirectory() || info.type === FSEVENT_TYPE_SYMLINK && stats2.isSymbolicLink() || info.type === FSEVENT_TYPE_FILE && stats2.isFile();
@@ -46930,41 +46930,41 @@ ${end.comment}` : end.comment;
           constructor(fsw) {
             this.fsw = fsw;
           }
-          checkIgnored(path2, stats2) {
+          checkIgnored(path3, stats2) {
             const ipaths = this.fsw._ignoredPaths;
-            if (this.fsw._isIgnored(path2, stats2)) {
-              ipaths.add(path2);
+            if (this.fsw._isIgnored(path3, stats2)) {
+              ipaths.add(path3);
               if (stats2 && stats2.isDirectory()) {
-                ipaths.add(path2 + ROOT_GLOBSTAR);
+                ipaths.add(path3 + ROOT_GLOBSTAR);
               }
               return true;
             }
-            ipaths.delete(path2);
-            ipaths.delete(path2 + ROOT_GLOBSTAR);
+            ipaths.delete(path3);
+            ipaths.delete(path3 + ROOT_GLOBSTAR);
           }
-          addOrChange(path2, fullPath, realPath, parent, watchedDir, item, info, opts) {
+          addOrChange(path3, fullPath, realPath, parent, watchedDir, item, info, opts) {
             const event = watchedDir.has(item) ? EV_CHANGE : EV_ADD;
-            this.handleEvent(event, path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+            this.handleEvent(event, path3, fullPath, realPath, parent, watchedDir, item, info, opts);
           }
-          async checkExists(path2, fullPath, realPath, parent, watchedDir, item, info, opts) {
+          async checkExists(path3, fullPath, realPath, parent, watchedDir, item, info, opts) {
             try {
-              const stats2 = await stat(path2);
+              const stats2 = await stat(path3);
               if (this.fsw.closed) return;
               if (sameTypes(info, stats2)) {
-                this.addOrChange(path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                this.addOrChange(path3, fullPath, realPath, parent, watchedDir, item, info, opts);
               } else {
-                this.handleEvent(EV_UNLINK, path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                this.handleEvent(EV_UNLINK, path3, fullPath, realPath, parent, watchedDir, item, info, opts);
               }
             } catch (error482) {
               if (error482.code === "EACCES") {
-                this.addOrChange(path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                this.addOrChange(path3, fullPath, realPath, parent, watchedDir, item, info, opts);
               } else {
-                this.handleEvent(EV_UNLINK, path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                this.handleEvent(EV_UNLINK, path3, fullPath, realPath, parent, watchedDir, item, info, opts);
               }
             }
           }
-          handleEvent(event, path2, fullPath, realPath, parent, watchedDir, item, info, opts) {
-            if (this.fsw.closed || this.checkIgnored(path2)) return;
+          handleEvent(event, path3, fullPath, realPath, parent, watchedDir, item, info, opts) {
+            if (this.fsw.closed || this.checkIgnored(path3)) return;
             if (event === EV_UNLINK) {
               const isDirectory = info.type === FSEVENT_TYPE_DIRECTORY;
               if (isDirectory || watchedDir.has(item)) {
@@ -46972,16 +46972,16 @@ ${end.comment}` : end.comment;
               }
             } else {
               if (event === EV_ADD) {
-                if (info.type === FSEVENT_TYPE_DIRECTORY) this.fsw._getWatchedDir(path2);
+                if (info.type === FSEVENT_TYPE_DIRECTORY) this.fsw._getWatchedDir(path3);
                 if (info.type === FSEVENT_TYPE_SYMLINK && opts.followSymlinks) {
                   const curDepth = opts.depth === void 0 ? void 0 : calcDepth(fullPath, realPath) + 1;
-                  return this._addToFsEvents(path2, false, true, curDepth);
+                  return this._addToFsEvents(path3, false, true, curDepth);
                 }
                 this.fsw._getWatchedDir(parent).add(item);
               }
               const eventName = info.type === FSEVENT_TYPE_DIRECTORY ? event + DIR_SUFFIX : event;
-              this.fsw._emit(eventName, path2);
-              if (eventName === EV_ADD_DIR) this._addToFsEvents(path2, false, true);
+              this.fsw._emit(eventName, path3);
+              if (eventName === EV_ADD_DIR) this._addToFsEvents(path3, false, true);
             }
           }
           /**
@@ -46998,41 +46998,41 @@ ${end.comment}` : end.comment;
             const watchCallback = async (fullPath, flags, info) => {
               if (this.fsw.closed) return;
               if (opts.depth !== void 0 && calcDepth(fullPath, realPath) > opts.depth) return;
-              const path2 = transform22(sysPath.join(
+              const path3 = transform22(sysPath.join(
                 watchPath,
                 sysPath.relative(watchPath, fullPath)
               ));
-              if (globFilter && !globFilter(path2)) return;
-              const parent = sysPath.dirname(path2);
-              const item = sysPath.basename(path2);
+              if (globFilter && !globFilter(path3)) return;
+              const parent = sysPath.dirname(path3);
+              const item = sysPath.basename(path3);
               const watchedDir = this.fsw._getWatchedDir(
-                info.type === FSEVENT_TYPE_DIRECTORY ? path2 : parent
+                info.type === FSEVENT_TYPE_DIRECTORY ? path3 : parent
               );
               if (wrongEventFlags.has(flags) || info.event === FSEVENT_UNKNOWN) {
                 if (typeof opts.ignored === FUNCTION_TYPE) {
                   let stats2;
                   try {
-                    stats2 = await stat(path2);
+                    stats2 = await stat(path3);
                   } catch (error482) {
                   }
                   if (this.fsw.closed) return;
-                  if (this.checkIgnored(path2, stats2)) return;
+                  if (this.checkIgnored(path3, stats2)) return;
                   if (sameTypes(info, stats2)) {
-                    this.addOrChange(path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                    this.addOrChange(path3, fullPath, realPath, parent, watchedDir, item, info, opts);
                   } else {
-                    this.handleEvent(EV_UNLINK, path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                    this.handleEvent(EV_UNLINK, path3, fullPath, realPath, parent, watchedDir, item, info, opts);
                   }
                 } else {
-                  this.checkExists(path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                  this.checkExists(path3, fullPath, realPath, parent, watchedDir, item, info, opts);
                 }
               } else {
                 switch (info.event) {
                   case FSEVENT_CREATED:
                   case FSEVENT_MODIFIED:
-                    return this.addOrChange(path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                    return this.addOrChange(path3, fullPath, realPath, parent, watchedDir, item, info, opts);
                   case FSEVENT_DELETED:
                   case FSEVENT_MOVED:
-                    return this.checkExists(path2, fullPath, realPath, parent, watchedDir, item, info, opts);
+                    return this.checkExists(path3, fullPath, realPath, parent, watchedDir, item, info, opts);
                 }
               }
             };
@@ -47064,12 +47064,12 @@ ${end.comment}` : end.comment;
                 return this.fsw._emitReady();
               }
               this.fsw._incrReadyCount();
-              this._addToFsEvents(linkTarget || linkPath, (path2) => {
+              this._addToFsEvents(linkTarget || linkPath, (path3) => {
                 let aliasedPath = linkPath;
                 if (linkTarget && linkTarget !== DOT_SLASH) {
-                  aliasedPath = path2.replace(linkTarget, linkPath);
-                } else if (path2 !== DOT_SLASH) {
-                  aliasedPath = sysPath.join(linkPath, path2);
+                  aliasedPath = path3.replace(linkTarget, linkPath);
+                } else if (path3 !== DOT_SLASH) {
+                  aliasedPath = sysPath.join(linkPath, path3);
                 }
                 return transform22(aliasedPath);
               }, false, curDepth);
@@ -47096,7 +47096,7 @@ ${end.comment}` : end.comment;
               this.fsw._emit(isDir ? EV_ADD_DIR : EV_ADD, pp, stats2);
             }
           }
-          initWatch(realPath, path2, wh, processPath) {
+          initWatch(realPath, path3, wh, processPath) {
             if (this.fsw.closed) return;
             const closer = this._watchWithFsEvents(
               wh.watchPath,
@@ -47104,7 +47104,7 @@ ${end.comment}` : end.comment;
               processPath,
               wh.globFilter
             );
-            this.fsw._addPathCloser(path2, closer);
+            this.fsw._addPathCloser(path3, closer);
           }
           /**
            * Handle added path with fsevents
@@ -47114,13 +47114,13 @@ ${end.comment}` : end.comment;
            * @param {Number=} priorDepth Level of subdirectories already traversed.
            * @returns {Promise<void>}
            */
-          async _addToFsEvents(path2, transform22, forceAdd, priorDepth) {
+          async _addToFsEvents(path3, transform22, forceAdd, priorDepth) {
             if (this.fsw.closed) {
               return;
             }
             const opts = this.fsw.options;
             const processPath = typeof transform22 === FUNCTION_TYPE ? transform22 : IDENTITY_FN;
-            const wh = this.fsw._getWatchHelpers(path2);
+            const wh = this.fsw._getWatchHelpers(path3);
             try {
               const stats2 = await statMethods[wh.statMethod](wh.watchPath);
               if (this.fsw.closed) return;
@@ -47128,7 +47128,7 @@ ${end.comment}` : end.comment;
                 throw null;
               }
               if (stats2.isDirectory()) {
-                if (!wh.globFilter) this.emitAdd(processPath(path2), stats2, processPath, opts, forceAdd);
+                if (!wh.globFilter) this.emitAdd(processPath(path3), stats2, processPath, opts, forceAdd);
                 if (priorDepth && priorDepth > opts.depth) return;
                 this.fsw._readdirp(wh.watchPath, {
                   fileFilter: (entry) => wh.filterPath(entry),
@@ -47162,14 +47162,14 @@ ${end.comment}` : end.comment;
             }
             if (opts.persistent && forceAdd !== true) {
               if (typeof transform22 === FUNCTION_TYPE) {
-                this.initWatch(void 0, path2, wh, processPath);
+                this.initWatch(void 0, path3, wh, processPath);
               } else {
                 let realPath;
                 try {
                   realPath = await realpath(wh.watchPath);
                 } catch (e) {
                 }
-                this.initWatch(realPath, path2, wh, processPath);
+                this.initWatch(realPath, path3, wh, processPath);
               }
             }
           }
@@ -47261,19 +47261,19 @@ ${end.comment}` : end.comment;
           }
           return str;
         };
-        var normalizePathToUnix = (path2) => toUnix(sysPath.normalize(toUnix(path2)));
-        var normalizeIgnored = (cwd = EMPTY_STR) => (path2) => {
-          if (typeof path2 !== STRING_TYPE) return path2;
-          return normalizePathToUnix(sysPath.isAbsolute(path2) ? path2 : sysPath.join(cwd, path2));
+        var normalizePathToUnix = (path3) => toUnix(sysPath.normalize(toUnix(path3)));
+        var normalizeIgnored = (cwd = EMPTY_STR) => (path3) => {
+          if (typeof path3 !== STRING_TYPE) return path3;
+          return normalizePathToUnix(sysPath.isAbsolute(path3) ? path3 : sysPath.join(cwd, path3));
         };
-        var getAbsolutePath = (path2, cwd) => {
-          if (sysPath.isAbsolute(path2)) {
-            return path2;
+        var getAbsolutePath = (path3, cwd) => {
+          if (sysPath.isAbsolute(path3)) {
+            return path3;
           }
-          if (path2.startsWith(BANG)) {
-            return BANG + sysPath.join(cwd, path2.slice(1));
+          if (path3.startsWith(BANG)) {
+            return BANG + sysPath.join(cwd, path3.slice(1));
           }
-          return sysPath.join(cwd, path2);
+          return sysPath.join(cwd, path3);
         };
         var undef = (opts, key) => opts[key] === void 0;
         var DirEntry = class {
@@ -47329,16 +47329,16 @@ ${end.comment}` : end.comment;
         var STAT_METHOD_F = "stat";
         var STAT_METHOD_L = "lstat";
         var WatchHelper = class {
-          constructor(path2, watchPath, follow, fsw) {
+          constructor(path3, watchPath, follow, fsw) {
             this.fsw = fsw;
-            this.path = path2 = path2.replace(REPLACER_RE, EMPTY_STR);
+            this.path = path3 = path3.replace(REPLACER_RE, EMPTY_STR);
             this.watchPath = watchPath;
             this.fullWatchPath = sysPath.resolve(watchPath);
-            this.hasGlob = watchPath !== path2;
-            if (path2 === EMPTY_STR) this.hasGlob = false;
+            this.hasGlob = watchPath !== path3;
+            if (path3 === EMPTY_STR) this.hasGlob = false;
             this.globSymlink = this.hasGlob && follow ? void 0 : false;
-            this.globFilter = this.hasGlob ? anymatch(path2, void 0, ANYMATCH_OPTS) : false;
-            this.dirParts = this.getDirParts(path2);
+            this.globFilter = this.hasGlob ? anymatch(path3, void 0, ANYMATCH_OPTS) : false;
+            this.dirParts = this.getDirParts(path3);
             this.dirParts.forEach((parts) => {
               if (parts.length > 1) parts.pop();
             });
@@ -47367,10 +47367,10 @@ ${end.comment}` : end.comment;
             const matchesGlob = this.hasGlob && typeof this.globFilter === FUNCTION_TYPE ? this.globFilter(resolvedPath) : true;
             return matchesGlob && this.fsw._isntIgnored(resolvedPath, stats2) && this.fsw._hasReadPermissions(stats2);
           }
-          getDirParts(path2) {
+          getDirParts(path3) {
             if (!this.hasGlob) return [];
             const parts = [];
-            const expandedPath = path2.includes(BRACE_START) ? braces.expand(path2) : [path2];
+            const expandedPath = path3.includes(BRACE_START) ? braces.expand(path3) : [path3];
             expandedPath.forEach((path22) => {
               parts.push(sysPath.relative(this.watchPath, path22).split(SLASH_OR_BACK_SLASH_RE));
             });
@@ -47478,34 +47478,34 @@ ${end.comment}` : end.comment;
             this.closed = false;
             let paths = unifyPaths(paths_);
             if (cwd) {
-              paths = paths.map((path2) => {
-                const absPath = getAbsolutePath(path2, cwd);
-                if (disableGlobbing || !isGlob(path2)) {
+              paths = paths.map((path3) => {
+                const absPath = getAbsolutePath(path3, cwd);
+                if (disableGlobbing || !isGlob(path3)) {
                   return absPath;
                 }
                 return normalizePath(absPath);
               });
             }
-            paths = paths.filter((path2) => {
-              if (path2.startsWith(BANG)) {
-                this._ignoredPaths.add(path2.slice(1));
+            paths = paths.filter((path3) => {
+              if (path3.startsWith(BANG)) {
+                this._ignoredPaths.add(path3.slice(1));
                 return false;
               }
-              this._ignoredPaths.delete(path2);
-              this._ignoredPaths.delete(path2 + SLASH_GLOBSTAR);
+              this._ignoredPaths.delete(path3);
+              this._ignoredPaths.delete(path3 + SLASH_GLOBSTAR);
               this._userIgnored = void 0;
               return true;
             });
             if (this.options.useFsEvents && this._fsEventsHandler) {
               if (!this._readyCount) this._readyCount = paths.length;
               if (this.options.persistent) this._readyCount += paths.length;
-              paths.forEach((path2) => this._fsEventsHandler._addToFsEvents(path2));
+              paths.forEach((path3) => this._fsEventsHandler._addToFsEvents(path3));
             } else {
               if (!this._readyCount) this._readyCount = 0;
               this._readyCount += paths.length;
               Promise.all(
-                paths.map(async (path2) => {
-                  const res = await this._nodeFsHandler._addToNodeFs(path2, !_internal, 0, 0, _origAdd);
+                paths.map(async (path3) => {
+                  const res = await this._nodeFsHandler._addToNodeFs(path3, !_internal, 0, 0, _origAdd);
                   if (res) this._emitReady();
                   return res;
                 })
@@ -47527,15 +47527,15 @@ ${end.comment}` : end.comment;
             if (this.closed) return this;
             const paths = unifyPaths(paths_);
             const { cwd } = this.options;
-            paths.forEach((path2) => {
-              if (!sysPath.isAbsolute(path2) && !this._closers.has(path2)) {
-                if (cwd) path2 = sysPath.join(cwd, path2);
-                path2 = sysPath.resolve(path2);
+            paths.forEach((path3) => {
+              if (!sysPath.isAbsolute(path3) && !this._closers.has(path3)) {
+                if (cwd) path3 = sysPath.join(cwd, path3);
+                path3 = sysPath.resolve(path3);
               }
-              this._closePath(path2);
-              this._ignoredPaths.add(path2);
-              if (this._watched.has(path2)) {
-                this._ignoredPaths.add(path2 + SLASH_GLOBSTAR);
+              this._closePath(path3);
+              this._ignoredPaths.add(path3);
+              if (this._watched.has(path3)) {
+                this._ignoredPaths.add(path3 + SLASH_GLOBSTAR);
               }
               this._userIgnored = void 0;
             });
@@ -47593,24 +47593,24 @@ ${end.comment}` : end.comment;
            * @param {*=} val3
            * @returns the error if defined, otherwise the value of the FSWatcher instance's `closed` flag
            */
-          async _emit(event, path2, val1, val2, val3) {
+          async _emit(event, path3, val1, val2, val3) {
             if (this.closed) return;
             const opts = this.options;
-            if (isWindows) path2 = sysPath.normalize(path2);
-            if (opts.cwd) path2 = sysPath.relative(opts.cwd, path2);
-            const args = [event, path2];
+            if (isWindows) path3 = sysPath.normalize(path3);
+            if (opts.cwd) path3 = sysPath.relative(opts.cwd, path3);
+            const args = [event, path3];
             if (val3 !== void 0) args.push(val1, val2, val3);
             else if (val2 !== void 0) args.push(val1, val2);
             else if (val1 !== void 0) args.push(val1);
             const awf = opts.awaitWriteFinish;
             let pw;
-            if (awf && (pw = this._pendingWrites.get(path2))) {
+            if (awf && (pw = this._pendingWrites.get(path3))) {
               pw.lastChange = /* @__PURE__ */ new Date();
               return this;
             }
             if (opts.atomic) {
               if (event === EV_UNLINK) {
-                this._pendingUnlinks.set(path2, args);
+                this._pendingUnlinks.set(path3, args);
                 setTimeout(() => {
                   this._pendingUnlinks.forEach((entry, path22) => {
                     this.emit(...entry);
@@ -47620,9 +47620,9 @@ ${end.comment}` : end.comment;
                 }, typeof opts.atomic === "number" ? opts.atomic : 100);
                 return this;
               }
-              if (event === EV_ADD && this._pendingUnlinks.has(path2)) {
+              if (event === EV_ADD && this._pendingUnlinks.has(path3)) {
                 event = args[0] = EV_CHANGE;
-                this._pendingUnlinks.delete(path2);
+                this._pendingUnlinks.delete(path3);
               }
             }
             if (awf && (event === EV_ADD || event === EV_CHANGE) && this._readyEmitted) {
@@ -47640,15 +47640,15 @@ ${end.comment}` : end.comment;
                   this.emitWithAll(event, args);
                 }
               };
-              this._awaitWriteFinish(path2, awf.stabilityThreshold, event, awfEmit);
+              this._awaitWriteFinish(path3, awf.stabilityThreshold, event, awfEmit);
               return this;
             }
             if (event === EV_CHANGE) {
-              const isThrottled = !this._throttle(EV_CHANGE, path2, 50);
+              const isThrottled = !this._throttle(EV_CHANGE, path3, 50);
               if (isThrottled) return this;
             }
             if (opts.alwaysStat && val1 === void 0 && (event === EV_ADD || event === EV_ADD_DIR || event === EV_CHANGE)) {
-              const fullPath = opts.cwd ? sysPath.join(opts.cwd, path2) : path2;
+              const fullPath = opts.cwd ? sysPath.join(opts.cwd, path3) : path3;
               let stats2;
               try {
                 stats2 = await stat(fullPath);
@@ -47679,28 +47679,28 @@ ${end.comment}` : end.comment;
            * @param {Number} timeout duration of time to suppress duplicate actions
            * @returns {Object|false} tracking object or false if action should be suppressed
            */
-          _throttle(actionType, path2, timeout) {
+          _throttle(actionType, path3, timeout) {
             if (!this._throttled.has(actionType)) {
               this._throttled.set(actionType, /* @__PURE__ */ new Map());
             }
             const action = this._throttled.get(actionType);
-            const actionPath = action.get(path2);
+            const actionPath = action.get(path3);
             if (actionPath) {
               actionPath.count++;
               return false;
             }
             let timeoutObject;
             const clear = () => {
-              const item = action.get(path2);
+              const item = action.get(path3);
               const count = item ? item.count : 0;
-              action.delete(path2);
+              action.delete(path3);
               clearTimeout(timeoutObject);
               if (item) clearTimeout(item.timeoutObject);
               return count;
             };
             timeoutObject = setTimeout(clear, timeout);
             const thr = { timeoutObject, clear, count: 0 };
-            action.set(path2, thr);
+            action.set(path3, thr);
             return thr;
           }
           _incrReadyCount() {
@@ -47714,27 +47714,27 @@ ${end.comment}` : end.comment;
            * @param {EventName} event
            * @param {Function} awfEmit Callback to be called when ready for event to be emitted.
            */
-          _awaitWriteFinish(path2, threshold, event, awfEmit) {
+          _awaitWriteFinish(path3, threshold, event, awfEmit) {
             let timeoutHandler;
-            let fullPath = path2;
-            if (this.options.cwd && !sysPath.isAbsolute(path2)) {
-              fullPath = sysPath.join(this.options.cwd, path2);
+            let fullPath = path3;
+            if (this.options.cwd && !sysPath.isAbsolute(path3)) {
+              fullPath = sysPath.join(this.options.cwd, path3);
             }
             const now = /* @__PURE__ */ new Date();
             const awaitWriteFinish = (prevStat) => {
               fs.stat(fullPath, (err, curStat) => {
-                if (err || !this._pendingWrites.has(path2)) {
+                if (err || !this._pendingWrites.has(path3)) {
                   if (err && err.code !== "ENOENT") awfEmit(err);
                   return;
                 }
                 const now2 = Number(/* @__PURE__ */ new Date());
                 if (prevStat && curStat.size !== prevStat.size) {
-                  this._pendingWrites.get(path2).lastChange = now2;
+                  this._pendingWrites.get(path3).lastChange = now2;
                 }
-                const pw = this._pendingWrites.get(path2);
+                const pw = this._pendingWrites.get(path3);
                 const df = now2 - pw.lastChange;
                 if (df >= threshold) {
-                  this._pendingWrites.delete(path2);
+                  this._pendingWrites.delete(path3);
                   awfEmit(void 0, curStat);
                 } else {
                   timeoutHandler = setTimeout(
@@ -47745,11 +47745,11 @@ ${end.comment}` : end.comment;
                 }
               });
             };
-            if (!this._pendingWrites.has(path2)) {
-              this._pendingWrites.set(path2, {
+            if (!this._pendingWrites.has(path3)) {
+              this._pendingWrites.set(path3, {
                 lastChange: now,
                 cancelWait: () => {
-                  this._pendingWrites.delete(path2);
+                  this._pendingWrites.delete(path3);
                   clearTimeout(timeoutHandler);
                   return event;
                 }
@@ -47769,8 +47769,8 @@ ${end.comment}` : end.comment;
            * @param {fs.Stats=} stats result of fs.stat
            * @returns {Boolean}
            */
-          _isIgnored(path2, stats2) {
-            if (this.options.atomic && DOT_RE.test(path2)) return true;
+          _isIgnored(path3, stats2) {
+            if (this.options.atomic && DOT_RE.test(path3)) return true;
             if (!this._userIgnored) {
               const { cwd } = this.options;
               const ign = this.options.ignored;
@@ -47779,10 +47779,10 @@ ${end.comment}` : end.comment;
               const list = this._getGlobIgnored().map(normalizeIgnored(cwd)).concat(ignored, paths);
               this._userIgnored = anymatch(list, void 0, ANYMATCH_OPTS);
             }
-            return this._userIgnored([path2, stats2]);
+            return this._userIgnored([path3, stats2]);
           }
-          _isntIgnored(path2, stat2) {
-            return !this._isIgnored(path2, stat2);
+          _isntIgnored(path3, stat2) {
+            return !this._isIgnored(path3, stat2);
           }
           /**
            * Provides a set of common helpers and properties relating to symlink and glob handling.
@@ -47790,10 +47790,10 @@ ${end.comment}` : end.comment;
            * @param {Number=} depth at any depth > 0, this isn't a glob
            * @returns {WatchHelper} object containing helpers for this path
            */
-          _getWatchHelpers(path2, depth) {
-            const watchPath = depth || this.options.disableGlobbing || !isGlob(path2) ? path2 : globParent(path2);
+          _getWatchHelpers(path3, depth) {
+            const watchPath = depth || this.options.disableGlobbing || !isGlob(path3) ? path3 : globParent(path3);
             const follow = this.options.followSymlinks;
-            return new WatchHelper(path2, watchPath, follow, this);
+            return new WatchHelper(path3, watchPath, follow, this);
           }
           // Directory helpers
           // -----------------
@@ -47832,66 +47832,66 @@ ${end.comment}` : end.comment;
            * @returns {void}
           */
           _remove(directory, item, isDirectory) {
-            const path2 = sysPath.join(directory, item);
-            const fullPath = sysPath.resolve(path2);
-            isDirectory = isDirectory != null ? isDirectory : this._watched.has(path2) || this._watched.has(fullPath);
-            if (!this._throttle("remove", path2, 100)) return;
+            const path3 = sysPath.join(directory, item);
+            const fullPath = sysPath.resolve(path3);
+            isDirectory = isDirectory != null ? isDirectory : this._watched.has(path3) || this._watched.has(fullPath);
+            if (!this._throttle("remove", path3, 100)) return;
             if (!isDirectory && !this.options.useFsEvents && this._watched.size === 1) {
               this.add(directory, item, true);
             }
-            const wp = this._getWatchedDir(path2);
+            const wp = this._getWatchedDir(path3);
             const nestedDirectoryChildren = wp.getChildren();
-            nestedDirectoryChildren.forEach((nested) => this._remove(path2, nested));
+            nestedDirectoryChildren.forEach((nested) => this._remove(path3, nested));
             const parent = this._getWatchedDir(directory);
             const wasTracked = parent.has(item);
             parent.remove(item);
             if (this._symlinkPaths.has(fullPath)) {
               this._symlinkPaths.delete(fullPath);
             }
-            let relPath = path2;
-            if (this.options.cwd) relPath = sysPath.relative(this.options.cwd, path2);
+            let relPath = path3;
+            if (this.options.cwd) relPath = sysPath.relative(this.options.cwd, path3);
             if (this.options.awaitWriteFinish && this._pendingWrites.has(relPath)) {
               const event = this._pendingWrites.get(relPath).cancelWait();
               if (event === EV_ADD) return;
             }
-            this._watched.delete(path2);
+            this._watched.delete(path3);
             this._watched.delete(fullPath);
             const eventName = isDirectory ? EV_UNLINK_DIR : EV_UNLINK;
-            if (wasTracked && !this._isIgnored(path2)) this._emit(eventName, path2);
+            if (wasTracked && !this._isIgnored(path3)) this._emit(eventName, path3);
             if (!this.options.useFsEvents) {
-              this._closePath(path2);
+              this._closePath(path3);
             }
           }
           /**
            * Closes all watchers for a path
            * @param {Path} path
            */
-          _closePath(path2) {
-            this._closeFile(path2);
-            const dir = sysPath.dirname(path2);
-            this._getWatchedDir(dir).remove(sysPath.basename(path2));
+          _closePath(path3) {
+            this._closeFile(path3);
+            const dir = sysPath.dirname(path3);
+            this._getWatchedDir(dir).remove(sysPath.basename(path3));
           }
           /**
            * Closes only file-specific watchers
            * @param {Path} path
            */
-          _closeFile(path2) {
-            const closers = this._closers.get(path2);
+          _closeFile(path3) {
+            const closers = this._closers.get(path3);
             if (!closers) return;
             closers.forEach((closer) => closer());
-            this._closers.delete(path2);
+            this._closers.delete(path3);
           }
           /**
            *
            * @param {Path} path
            * @param {Function} closer
            */
-          _addPathCloser(path2, closer) {
+          _addPathCloser(path3, closer) {
             if (!closer) return;
-            let list = this._closers.get(path2);
+            let list = this._closers.get(path3);
             if (!list) {
               list = [];
-              this._closers.set(path2, list);
+              this._closers.set(path3, list);
             }
             list.push(closer);
           }
@@ -49309,7 +49309,7 @@ ${end.comment}` : end.comment;
         exports22.Entry = Entry;
         exports22.LocalFileHeader = LocalFileHeader;
         exports22.RandomAccessReader = RandomAccessReader;
-        function open22(path2, options2, callback) {
+        function open22(path3, options2, callback) {
           if (typeof options2 === "function") {
             callback = options2;
             options2 = null;
@@ -49321,7 +49321,7 @@ ${end.comment}` : end.comment;
           if (options2.validateEntrySizes == null) options2.validateEntrySizes = true;
           if (options2.strictFileNames == null) options2.strictFileNames = false;
           if (callback == null) callback = defaultCallback;
-          fs.open(path2, "r", function(err, fd) {
+          fs.open(path3, "r", function(err, fd) {
             if (err) return callback(err);
             fromFd(fd, options2, function(err2, zipfile) {
               if (err2) fs.close(fd, defaultCallback);
@@ -50079,14 +50079,14 @@ ${end.comment}` : end.comment;
           fs.fstatSync = statFixSync(fs.fstatSync);
           fs.lstatSync = statFixSync(fs.lstatSync);
           if (fs.chmod && !fs.lchmod) {
-            fs.lchmod = function(path2, mode, cb) {
+            fs.lchmod = function(path3, mode, cb) {
               if (cb) process.nextTick(cb);
             };
             fs.lchmodSync = function() {
             };
           }
           if (fs.chown && !fs.lchown) {
-            fs.lchown = function(path2, uid, gid, cb) {
+            fs.lchown = function(path3, uid, gid, cb) {
               if (cb) process.nextTick(cb);
             };
             fs.lchownSync = function() {
@@ -50153,9 +50153,9 @@ ${end.comment}` : end.comment;
             };
           })(fs.readSync);
           function patchLchmod(fs2) {
-            fs2.lchmod = function(path2, mode, callback) {
+            fs2.lchmod = function(path3, mode, callback) {
               fs2.open(
-                path2,
+                path3,
                 constants.O_WRONLY | constants.O_SYMLINK,
                 mode,
                 function(err, fd) {
@@ -50171,8 +50171,8 @@ ${end.comment}` : end.comment;
                 }
               );
             };
-            fs2.lchmodSync = function(path2, mode) {
-              var fd = fs2.openSync(path2, constants.O_WRONLY | constants.O_SYMLINK, mode);
+            fs2.lchmodSync = function(path3, mode) {
+              var fd = fs2.openSync(path3, constants.O_WRONLY | constants.O_SYMLINK, mode);
               var threw = true;
               var ret;
               try {
@@ -50193,8 +50193,8 @@ ${end.comment}` : end.comment;
           }
           function patchLutimes(fs2) {
             if (constants.hasOwnProperty("O_SYMLINK") && fs2.futimes) {
-              fs2.lutimes = function(path2, at, mt, cb) {
-                fs2.open(path2, constants.O_SYMLINK, function(er, fd) {
+              fs2.lutimes = function(path3, at, mt, cb) {
+                fs2.open(path3, constants.O_SYMLINK, function(er, fd) {
                   if (er) {
                     if (cb) cb(er);
                     return;
@@ -50206,8 +50206,8 @@ ${end.comment}` : end.comment;
                   });
                 });
               };
-              fs2.lutimesSync = function(path2, at, mt) {
-                var fd = fs2.openSync(path2, constants.O_SYMLINK);
+              fs2.lutimesSync = function(path3, at, mt) {
+                var fd = fs2.openSync(path3, constants.O_SYMLINK);
                 var ret;
                 var threw = true;
                 try {
@@ -50323,11 +50323,11 @@ ${end.comment}` : end.comment;
             ReadStream,
             WriteStream
           };
-          function ReadStream(path2, options2) {
-            if (!(this instanceof ReadStream)) return new ReadStream(path2, options2);
+          function ReadStream(path3, options2) {
+            if (!(this instanceof ReadStream)) return new ReadStream(path3, options2);
             Stream2.call(this);
             var self2 = this;
-            this.path = path2;
+            this.path = path3;
             this.fd = null;
             this.readable = true;
             this.paused = false;
@@ -50372,10 +50372,10 @@ ${end.comment}` : end.comment;
               self2._read();
             });
           }
-          function WriteStream(path2, options2) {
-            if (!(this instanceof WriteStream)) return new WriteStream(path2, options2);
+          function WriteStream(path3, options2) {
+            if (!(this instanceof WriteStream)) return new WriteStream(path3, options2);
             Stream2.call(this);
-            this.path = path2;
+            this.path = path3;
             this.fd = null;
             this.writable = true;
             this.flags = "w";
@@ -50514,10 +50514,10 @@ ${end.comment}` : end.comment;
           fs2.createWriteStream = createWriteStream;
           var fs$readFile = fs2.readFile;
           fs2.readFile = readFile;
-          function readFile(path2, options2, cb) {
+          function readFile(path3, options2, cb) {
             if (typeof options2 === "function")
               cb = options2, options2 = null;
-            return go$readFile(path2, options2, cb);
+            return go$readFile(path3, options2, cb);
             function go$readFile(path22, options3, cb2, startTime) {
               return fs$readFile(path22, options3, function(err) {
                 if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
@@ -50531,10 +50531,10 @@ ${end.comment}` : end.comment;
           }
           var fs$writeFile = fs2.writeFile;
           fs2.writeFile = writeFile;
-          function writeFile(path2, data, options2, cb) {
+          function writeFile(path3, data, options2, cb) {
             if (typeof options2 === "function")
               cb = options2, options2 = null;
-            return go$writeFile(path2, data, options2, cb);
+            return go$writeFile(path3, data, options2, cb);
             function go$writeFile(path22, data2, options3, cb2, startTime) {
               return fs$writeFile(path22, data2, options3, function(err) {
                 if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
@@ -50549,10 +50549,10 @@ ${end.comment}` : end.comment;
           var fs$appendFile = fs2.appendFile;
           if (fs$appendFile)
             fs2.appendFile = appendFile;
-          function appendFile(path2, data, options2, cb) {
+          function appendFile(path3, data, options2, cb) {
             if (typeof options2 === "function")
               cb = options2, options2 = null;
-            return go$appendFile(path2, data, options2, cb);
+            return go$appendFile(path3, data, options2, cb);
             function go$appendFile(path22, data2, options3, cb2, startTime) {
               return fs$appendFile(path22, data2, options3, function(err) {
                 if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
@@ -50587,7 +50587,7 @@ ${end.comment}` : end.comment;
           var fs$readdir = fs2.readdir;
           fs2.readdir = readdir;
           var noReaddirOptionVersions = /^v[0-5]\./;
-          function readdir(path2, options2, cb) {
+          function readdir(path3, options2, cb) {
             if (typeof options2 === "function")
               cb = options2, options2 = null;
             var go$readdir = noReaddirOptionVersions.test(process.version) ? function go$readdir2(path22, options3, cb2, startTime) {
@@ -50605,7 +50605,7 @@ ${end.comment}` : end.comment;
                 startTime
               ));
             };
-            return go$readdir(path2, options2, cb);
+            return go$readdir(path3, options2, cb);
             function fs$readdirCallback(path22, options3, cb2, startTime) {
               return function(err, files) {
                 if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
@@ -50682,7 +50682,7 @@ ${end.comment}` : end.comment;
             enumerable: true,
             configurable: true
           });
-          function ReadStream(path2, options2) {
+          function ReadStream(path3, options2) {
             if (this instanceof ReadStream)
               return fs$ReadStream.apply(this, arguments), this;
             else
@@ -50702,7 +50702,7 @@ ${end.comment}` : end.comment;
               }
             });
           }
-          function WriteStream(path2, options2) {
+          function WriteStream(path3, options2) {
             if (this instanceof WriteStream)
               return fs$WriteStream.apply(this, arguments), this;
             else
@@ -50720,18 +50720,18 @@ ${end.comment}` : end.comment;
               }
             });
           }
-          function createReadStream(path2, options2) {
-            return new fs2.ReadStream(path2, options2);
+          function createReadStream(path3, options2) {
+            return new fs2.ReadStream(path3, options2);
           }
-          function createWriteStream(path2, options2) {
-            return new fs2.WriteStream(path2, options2);
+          function createWriteStream(path3, options2) {
+            return new fs2.WriteStream(path3, options2);
           }
           var fs$open = fs2.open;
           fs2.open = open22;
-          function open22(path2, flags, mode, cb) {
+          function open22(path3, flags, mode, cb) {
             if (typeof mode === "function")
               cb = mode, mode = null;
-            return go$open(path2, flags, mode, cb);
+            return go$open(path3, flags, mode, cb);
             function go$open(path22, flags2, mode2, cb2, startTime) {
               return fs$open(path22, flags2, mode2, function(err, fd) {
                 if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
@@ -54676,8 +54676,8 @@ ${end.comment}` : end.comment;
           }
           return ind;
         }
-        function removeDotSegments(path2) {
-          let input = path2;
+        function removeDotSegments(path3) {
+          let input = path3;
           const output = [];
           let nextSlash = -1;
           let len = 0;
@@ -54927,8 +54927,8 @@ ${end.comment}` : end.comment;
             wsComponent.secure = void 0;
           }
           if (wsComponent.resourceName) {
-            const [path2, query] = wsComponent.resourceName.split("?");
-            wsComponent.path = path2 && path2 !== "/" ? path2 : void 0;
+            const [path3, query] = wsComponent.resourceName.split("?");
+            wsComponent.path = path3 && path3 !== "/" ? path3 : void 0;
             wsComponent.query = query;
             wsComponent.resourceName = void 0;
           }
@@ -64000,7 +64000,7 @@ ${end.comment}` : end.comment;
         module22.exports = isexe;
         isexe.sync = sync;
         var fs = __require("fs");
-        function checkPathExt(path2, options2) {
+        function checkPathExt(path3, options2) {
           var pathext = options2.pathExt !== void 0 ? options2.pathExt : process.env.PATHEXT;
           if (!pathext) {
             return true;
@@ -64011,25 +64011,25 @@ ${end.comment}` : end.comment;
           }
           for (var i = 0; i < pathext.length; i++) {
             var p = pathext[i].toLowerCase();
-            if (p && path2.substr(-p.length).toLowerCase() === p) {
+            if (p && path3.substr(-p.length).toLowerCase() === p) {
               return true;
             }
           }
           return false;
         }
-        function checkStat(stat, path2, options2) {
+        function checkStat(stat, path3, options2) {
           if (!stat.isSymbolicLink() && !stat.isFile()) {
             return false;
           }
-          return checkPathExt(path2, options2);
+          return checkPathExt(path3, options2);
         }
-        function isexe(path2, options2, cb) {
-          fs.stat(path2, function(er, stat) {
-            cb(er, er ? false : checkStat(stat, path2, options2));
+        function isexe(path3, options2, cb) {
+          fs.stat(path3, function(er, stat) {
+            cb(er, er ? false : checkStat(stat, path3, options2));
           });
         }
-        function sync(path2, options2) {
-          return checkStat(fs.statSync(path2), path2, options2);
+        function sync(path3, options2) {
+          return checkStat(fs.statSync(path3), path3, options2);
         }
       }
     });
@@ -64038,13 +64038,13 @@ ${end.comment}` : end.comment;
         module22.exports = isexe;
         isexe.sync = sync;
         var fs = __require("fs");
-        function isexe(path2, options2, cb) {
-          fs.stat(path2, function(er, stat) {
+        function isexe(path3, options2, cb) {
+          fs.stat(path3, function(er, stat) {
             cb(er, er ? false : checkStat(stat, options2));
           });
         }
-        function sync(path2, options2) {
-          return checkStat(fs.statSync(path2), options2);
+        function sync(path3, options2) {
+          return checkStat(fs.statSync(path3), options2);
         }
         function checkStat(stat, options2) {
           return stat.isFile() && checkMode(stat, options2);
@@ -64075,7 +64075,7 @@ ${end.comment}` : end.comment;
         }
         module22.exports = isexe;
         isexe.sync = sync;
-        function isexe(path2, options2, cb) {
+        function isexe(path3, options2, cb) {
           if (typeof options2 === "function") {
             cb = options2;
             options2 = {};
@@ -64085,7 +64085,7 @@ ${end.comment}` : end.comment;
               throw new TypeError("callback not provided");
             }
             return new Promise(function(resolve, reject) {
-              isexe(path2, options2 || {}, function(er, is) {
+              isexe(path3, options2 || {}, function(er, is) {
                 if (er) {
                   reject(er);
                 } else {
@@ -64094,7 +64094,7 @@ ${end.comment}` : end.comment;
               });
             });
           }
-          core(path2, options2 || {}, function(er, is) {
+          core(path3, options2 || {}, function(er, is) {
             if (er) {
               if (er.code === "EACCES" || options2 && options2.ignoreErrors) {
                 er = null;
@@ -64104,9 +64104,9 @@ ${end.comment}` : end.comment;
             cb(er, is);
           });
         }
-        function sync(path2, options2) {
+        function sync(path3, options2) {
           try {
-            return core.sync(path2, options2 || {});
+            return core.sync(path3, options2 || {});
           } catch (er) {
             if (options2 && options2.ignoreErrors || er.code === "EACCES") {
               return false;
@@ -64120,7 +64120,7 @@ ${end.comment}` : end.comment;
     var require_which = __commonJS3({
       "node_modules/which/which.js"(exports22, module22) {
         var isWindows = process.platform === "win32" || process.env.OSTYPE === "cygwin" || process.env.OSTYPE === "msys";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var COLON = isWindows ? ";" : ":";
         var isexe = require_isexe();
         var getNotFoundError = (cmd) => Object.assign(new Error(`not found: ${cmd}`), { code: "ENOENT" });
@@ -64158,7 +64158,7 @@ ${end.comment}` : end.comment;
               return opt.all && found.length ? resolve(found) : reject(getNotFoundError(cmd));
             const ppRaw = pathEnv[i];
             const pathPart = /^".*"$/.test(ppRaw) ? ppRaw.slice(1, -1) : ppRaw;
-            const pCmd = path2.join(pathPart, cmd);
+            const pCmd = path3.join(pathPart, cmd);
             const p = !pathPart && /^\.[\\\/]/.test(cmd) ? cmd.slice(0, 2) + pCmd : pCmd;
             resolve(subStep(p, i, 0));
           });
@@ -64185,7 +64185,7 @@ ${end.comment}` : end.comment;
           for (let i = 0; i < pathEnv.length; i++) {
             const ppRaw = pathEnv[i];
             const pathPart = /^".*"$/.test(ppRaw) ? ppRaw.slice(1, -1) : ppRaw;
-            const pCmd = path2.join(pathPart, cmd);
+            const pCmd = path3.join(pathPart, cmd);
             const p = !pathPart && /^\.[\\\/]/.test(cmd) ? cmd.slice(0, 2) + pCmd : pCmd;
             for (let j = 0; j < pathExt.length; j++) {
               const cur = p + pathExt[j];
@@ -64229,7 +64229,7 @@ ${end.comment}` : end.comment;
     var require_resolveCommand = __commonJS3({
       "node_modules/cross-spawn/lib/util/resolveCommand.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var which = require_which();
         var getPathKey = require_path_key();
         function resolveCommandAttempt(parsed, withoutPathExt) {
@@ -64247,7 +64247,7 @@ ${end.comment}` : end.comment;
           try {
             resolved = which.sync(parsed.command, {
               path: env[getPathKey({ env })],
-              pathExt: withoutPathExt ? path2.delimiter : void 0
+              pathExt: withoutPathExt ? path3.delimiter : void 0
             });
           } catch (e) {
           } finally {
@@ -64256,7 +64256,7 @@ ${end.comment}` : end.comment;
             }
           }
           if (resolved) {
-            resolved = path2.resolve(hasCustomCwd ? parsed.options.cwd : "", resolved);
+            resolved = path3.resolve(hasCustomCwd ? parsed.options.cwd : "", resolved);
           }
           return resolved;
         }
@@ -64304,8 +64304,8 @@ ${end.comment}` : end.comment;
           if (!match) {
             return null;
           }
-          const [path2, argument] = match[0].replace(/#! ?/, "").split(" ");
-          const binary = path2.split("/").pop();
+          const [path3, argument] = match[0].replace(/#! ?/, "").split(" ");
+          const binary = path3.split("/").pop();
           if (binary === "env") {
             return argument;
           }
@@ -64336,7 +64336,7 @@ ${end.comment}` : end.comment;
     var require_parse5 = __commonJS3({
       "node_modules/cross-spawn/lib/parse.js"(exports22, module22) {
         "use strict";
-        var path2 = __require("path");
+        var path3 = __require("path");
         var resolveCommand = require_resolveCommand();
         var escape2 = require_escape();
         var readShebang = require_readShebang();
@@ -64361,7 +64361,7 @@ ${end.comment}` : end.comment;
           const needsShell = !isExecutableRegExp.test(commandFile);
           if (parsed.options.forceShell || needsShell) {
             const needsDoubleEscapeMetaChars = isCmdShimRegExp.test(commandFile);
-            parsed.command = path2.normalize(parsed.command);
+            parsed.command = path3.normalize(parsed.command);
             parsed.command = escape2.command(parsed.command);
             parsed.args = parsed.args.map((arg) => escape2.argument(arg, needsDoubleEscapeMetaChars));
             const shellCommand = [parsed.command].concat(parsed.args).join(" ");
@@ -64656,16 +64656,16 @@ ${end.comment}` : end.comment;
           }
         }
       }
-      addToPath(path2, added, removed, oldPosInc, options2) {
-        const last = path2.lastComponent;
+      addToPath(path3, added, removed, oldPosInc, options2) {
+        const last = path3.lastComponent;
         if (last && !options2.oneChangePerToken && last.added === added && last.removed === removed) {
           return {
-            oldPos: path2.oldPos + oldPosInc,
+            oldPos: path3.oldPos + oldPosInc,
             lastComponent: { count: last.count + 1, added, removed, previousComponent: last.previousComponent }
           };
         } else {
           return {
-            oldPos: path2.oldPos + oldPosInc,
+            oldPos: path3.oldPos + oldPosInc,
             lastComponent: { count: 1, added, removed, previousComponent: last }
           };
         }
@@ -66960,10 +66960,10 @@ ${end.comment}` : end.comment;
     function cloneDef2(schema) {
       return mergeDefs2(schema._zod.def);
     }
-    function getElementAtPath2(obj, path2) {
-      if (!path2)
+    function getElementAtPath2(obj, path3) {
+      if (!path3)
         return obj;
-      return path2.reduce((acc, key) => acc?.[key], obj);
+      return path3.reduce((acc, key) => acc?.[key], obj);
     }
     function promiseAllObject2(promisesObj) {
       const keys = Object.keys(promisesObj);
@@ -67346,11 +67346,11 @@ ${end.comment}` : end.comment;
       }
       return false;
     }
-    function prefixIssues2(path2, issues) {
+    function prefixIssues2(path3, issues) {
       return issues.map((iss) => {
         var _a22;
         (_a22 = iss).path ?? (_a22.path = []);
-        iss.path.unshift(path2);
+        iss.path.unshift(path3);
         return iss;
       });
     }
@@ -67531,7 +67531,7 @@ ${end.comment}` : end.comment;
     }
     function treeifyError2(error482, mapper = (issue22) => issue22.message) {
       const result2 = { errors: [] };
-      const processError = (error492, path2 = []) => {
+      const processError = (error492, path3 = []) => {
         var _a22, _b;
         for (const issue22 of error492.issues) {
           if (issue22.code === "invalid_union" && issue22.errors.length) {
@@ -67541,7 +67541,7 @@ ${end.comment}` : end.comment;
           } else if (issue22.code === "invalid_element") {
             processError({ issues: issue22.issues }, issue22.path);
           } else {
-            const fullpath = [...path2, ...issue22.path];
+            const fullpath = [...path3, ...issue22.path];
             if (fullpath.length === 0) {
               result2.errors.push(mapper(issue22));
               continue;
@@ -67573,8 +67573,8 @@ ${end.comment}` : end.comment;
     }
     function toDotPath2(_path) {
       const segs = [];
-      const path2 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
-      for (const seg of path2) {
+      const path3 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
+      for (const seg of path3) {
         if (typeof seg === "number")
           segs.push(`[${seg}]`);
         else if (typeof seg === "symbol")
@@ -79411,13 +79411,13 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
       if (!ref.startsWith("#")) {
         throw new Error("External $ref is not supported, only local refs (#/...) are allowed");
       }
-      const path2 = ref.slice(1).split("/").filter(Boolean);
-      if (path2.length === 0) {
+      const path3 = ref.slice(1).split("/").filter(Boolean);
+      if (path3.length === 0) {
         return ctx.rootSchema;
       }
       const defsKey = ctx.version === "draft-2020-12" ? "$defs" : "definitions";
-      if (path2[0] === defsKey) {
-        const key = path2[1];
+      if (path3[0] === defsKey) {
+        const key = path3[1];
         if (!key || !ctx.defs[key]) {
           throw new Error(`Reference not found: ${ref}`);
         }
@@ -80165,8 +80165,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
       return overrideErrorMap2;
     }
     var makeIssue2 = (params2) => {
-      const { data, path: path2, errorMaps, issueData } = params2;
-      const fullPath = [...path2, ...issueData.path || []];
+      const { data, path: path3, errorMaps, issueData } = params2;
+      const fullPath = [...path3, ...issueData.path || []];
       const fullIssue = {
         ...issueData,
         path: fullPath
@@ -80277,11 +80277,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
       errorUtil22.toString = (message) => typeof message === "string" ? message : message?.message;
     })(errorUtil2 || (errorUtil2 = {}));
     var ParseInputLazyPath2 = class {
-      constructor(parent, value2, path2, key) {
+      constructor(parent, value2, path3, key) {
         this._cachedPath = [];
         this.parent = parent;
         this.data = value2;
-        this._path = path2;
+        this._path = path3;
         this._key = key;
       }
       get path() {
@@ -117822,16 +117822,16 @@ ${snapshottedObjectBuiltins.map((n) => `  const ${n} = (typeof globalThis.${n} =
             const { body, log: log2, response: response2 } = await this._sendRequestWithRetries(progress2, requestUrl, options2, postData, params2.maxRetries);
             const failOnStatusCode = params2.failOnStatusCode !== void 0 ? params2.failOnStatusCode : !!defaults.failOnStatusCode;
             if (failOnStatusCode && (response2.status < 200 || response2.status >= 400)) {
-              let responseText = "";
+              let responseText2 = "";
               if (body.byteLength) {
                 let text22 = body.toString("utf8");
                 if (text22.length > 1e3)
                   text22 = text22.substring(0, 997) + "...";
-                responseText = `
+                responseText2 = `
 Response text:
 ${text22}`;
               }
-              throw new Error(`${response2.status} ${response2.statusText}${responseText}`);
+              throw new Error(`${response2.status} ${response2.statusText}${responseText2}`);
             }
             const fetchUid = this._storeResponseBody(body);
             this.fetchLog.set(fetchUid, log2);
@@ -133518,17 +133518,17 @@ ${updatedLog}`);
           }
           _onLogEntryAdded(params2) {
             if (params2.type === "javascript" && params2.level === "error") {
-              let errorName = "";
+              let errorName2 = "";
               let errorMessage;
               if (params2.text?.includes(": ")) {
                 const index = params2.text.indexOf(": ");
-                errorName = params2.text.substring(0, index);
+                errorName2 = params2.text.substring(0, index);
                 errorMessage = params2.text.substring(index + 2);
               } else {
                 errorMessage = params2.text ?? void 0;
               }
               const error51 = new Error(errorMessage);
-              error51.name = errorName;
+              error51.name = errorName2;
               error51.stack = `${params2.text}
 ${params2.stackTrace?.callFrames.map((f) => {
                 const location4 = `${f.url}:${f.lineNumber + 1}:${f.columnNumber + 1}`;
@@ -165850,7 +165850,7 @@ var init_playwright_core = __esm2({
 
 // src/server.mjs
 import os from "node:os";
-import path from "node:path";
+import path2 from "node:path";
 import { fileURLToPath as fileURLToPath2 } from "node:url";
 
 // node_modules/zod/v3/helpers/util.js
@@ -166212,8 +166212,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params2) => {
-  const { data, path: path2, errorMaps, issueData } = params2;
-  const fullPath = [...path2, ...issueData.path || []];
+  const { data, path: path3, errorMaps, issueData } = params2;
+  const fullPath = [...path3, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -166328,11 +166328,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value2, path2, key) {
+  constructor(parent, value2, path3, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value2;
-    this._path = path2;
+    this._path = path3;
     this._key = key;
   }
   get path() {
@@ -170252,10 +170252,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path2) {
-  if (!path2)
+function getElementAtPath(obj, path3) {
+  if (!path3)
     return obj;
-  return path2.reduce((acc, key) => acc?.[key], obj);
+  return path3.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -170664,11 +170664,11 @@ function explicitlyAborted(x, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path2, issues) {
+function prefixIssues(path3, issues) {
   return issues.map((iss) => {
     var _a3;
     (_a3 = iss).path ?? (_a3.path = []);
-    iss.path.unshift(path2);
+    iss.path.unshift(path3);
     return iss;
   });
 }
@@ -170815,16 +170815,16 @@ function flattenError(error51, mapper = (issue2) => issue2.message) {
 }
 function formatError(error51, mapper = (issue2) => issue2.message) {
   const fieldErrors = { _errors: [] };
-  const processError = (error52, path2 = []) => {
+  const processError = (error52, path3 = []) => {
     for (const issue2 of error52.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path2, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path3, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
       } else {
-        const fullpath = [...path2, ...issue2.path];
+        const fullpath = [...path3, ...issue2.path];
         if (fullpath.length === 0) {
           fieldErrors._errors.push(mapper(issue2));
         } else {
@@ -170851,17 +170851,17 @@ function formatError(error51, mapper = (issue2) => issue2.message) {
 }
 function treeifyError(error51, mapper = (issue2) => issue2.message) {
   const result2 = { errors: [] };
-  const processError = (error52, path2 = []) => {
+  const processError = (error52, path3 = []) => {
     var _a3, _b;
     for (const issue2 of error52.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path2, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path3, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
       } else {
-        const fullpath = [...path2, ...issue2.path];
+        const fullpath = [...path3, ...issue2.path];
         if (fullpath.length === 0) {
           result2.errors.push(mapper(issue2));
           continue;
@@ -170893,8 +170893,8 @@ function treeifyError(error51, mapper = (issue2) => issue2.message) {
 }
 function toDotPath(_path) {
   const segs = [];
-  const path2 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
-  for (const seg of path2) {
+  const path3 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
+  for (const seg of path3) {
     if (typeof seg === "number")
       segs.push(`[${seg}]`);
     else if (typeof seg === "symbol")
@@ -184019,13 +184019,13 @@ function resolveRef(ref, ctx) {
   if (!ref.startsWith("#")) {
     throw new Error("External $ref is not supported, only local refs (#/...) are allowed");
   }
-  const path2 = ref.slice(1).split("/").filter(Boolean);
-  if (path2.length === 0) {
+  const path3 = ref.slice(1).split("/").filter(Boolean);
+  if (path3.length === 0) {
     return ctx.rootSchema;
   }
   const defsKey = ctx.version === "draft-2020-12" ? "$defs" : "definitions";
-  if (path2[0] === defsKey) {
-    const key = path2[1];
+  if (path3[0] === defsKey) {
+    const key = path3[1];
     if (!key || !ctx.defs[key]) {
       throw new Error(`Reference not found: ${ref}`);
     }
@@ -189987,8 +189987,11 @@ var AuthError = class extends Error {
 };
 var RateLimitError = class extends Error {
 };
+var ForbiddenError = class extends Error {
+};
 var API = "https://api.glovoapp.com";
 var WEB_VERSION = "v1.2476.1";
+var MAX_AUTH_REFRESHES = 2;
 var DEFAULT_LOCATION = {
   countryCode: process.env.GLOVO_COUNTRY_CODE || "ES",
   cityCode: process.env.GLOVO_CITY_CODE || "BCN",
@@ -190035,8 +190038,8 @@ function productAddEnabled(data) {
   }
   return null;
 }
-function safePath(path2) {
-  return path2.replace(/\/authenticated\/customers\/[^/]+/g, "/authenticated/customers/[customer]").replace(/\/baskets\/[^/]+\/products\/[^/]+/g, "/baskets/[basket]/products/[products]").replace(/\/baskets\/[^/]+\/products/g, "/baskets/[basket]/products").replace(/\/baskets\/[^/]+/g, "/baskets/[basket]");
+function safePath(path3) {
+  return path3.replace(/\/authenticated\/customers\/[^/]+/g, "/authenticated/customers/[customer]").replace(/\/baskets\/(?!stores\/)[^/]+\/products\/[^/]+/g, "/baskets/[basket]/products/[products]").replace(/\/baskets\/(?!stores\/)[^/]+\/products/g, "/baskets/[basket]/products").replace(/\/baskets\/(?!stores\/)[^/]+/g, "/baskets/[basket]");
 }
 function redactIdentifiers(text3) {
   return String(text3 || "").replace(/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, "[id]").replace(/\b(?:basket|product|store|address|customer|bp|sp|p|e)-[A-Za-z0-9_-]+\b/g, "[id]").replace(/\d+/g, "#");
@@ -190048,6 +190051,30 @@ function safeErrorBody(text3) {
   } catch {
     return redactIdentifiers(text3).slice(0, 180);
   }
+}
+function errorName(text3) {
+  try {
+    const parsed = JSON.parse(text3);
+    return parsed?.error?.exceptionName || parsed?.error?.userInfo?.basketErrorName || null;
+  } catch {
+    return null;
+  }
+}
+function authFailure(label, res, { auth, refreshes }) {
+  const refreshed = refreshes ? ` after ${refreshes} token refresh${refreshes === 1 ? "" : "es"}` : "";
+  let error51;
+  if (res.status === 403 && (refreshes || !auth)) {
+    error51 = new ForbiddenError(`${label} -> 403: ${safeErrorBody(res.text.slice(0, 300))}${refreshed}. The session is valid; Glovo refused this request, so signing in again will not help.`);
+  } else {
+    error51 = new AuthError(`Glovo auth failed (${res.status})${refreshed}. Run glovo_login ${refreshes ? "again" : "first"}.`);
+  }
+  error51.status = res.status;
+  return error51;
+}
+async function responseText(res) {
+  if (typeof res.text === "function") return res.text();
+  if (typeof res.json === "function") return JSON.stringify(await res.json());
+  return "";
 }
 function defaultSleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -190062,7 +190089,7 @@ async function withRetry(fn, { maxRetries = 3, label = "glovo" } = {}) {
     try {
       return await fn();
     } catch (error51) {
-      if (attempt >= maxRetries) throw error51;
+      if (attempt >= maxRetries || error51 instanceof AuthError || error51 instanceof ForbiddenError) throw error51;
       const delay = retryDelay(error51, attempt);
       console.error(JSON.stringify({ event: "retry", label, attempt: attempt + 1, delay_ms: delay, rate_limited: error51 instanceof RateLimitError }));
       await sleep(delay);
@@ -190070,9 +190097,10 @@ async function withRetry(fn, { maxRetries = 3, label = "glovo" } = {}) {
   }
 }
 var GlovoClient = class {
-  constructor(sessionPath, { session: session2 = null } = {}) {
+  constructor(sessionPath, { session: session2 = null, httpLog = null } = {}) {
     this.sessionPath = sessionPath;
     this.session = session2;
+    this.httpLog = httpLog;
     this.bits = defaultSessionBits();
   }
   reload() {
@@ -190196,15 +190224,30 @@ var GlovoClient = class {
     if (auth && this.session?.accessToken) h.Authorization = this.session.accessToken;
     return h;
   }
+  async send(path3, { method = "GET", headers, body } = {}) {
+    const url2 = `${API}${path3}`;
+    const started = Date.now();
+    const entry = { method, url: url2, requestHeaders: headers, requestBody: body };
+    let res;
+    try {
+      res = await globalThis.fetch(url2, { method, headers, ...body === void 0 ? {} : { body } });
+    } catch (error51) {
+      this.httpLog?.record({ ...entry, durationMs: Date.now() - started, error: error51?.message || String(error51) });
+      throw error51;
+    }
+    const text3 = await responseText(res);
+    this.httpLog?.record({ ...entry, status: res.status, responseHeaders: res.headers, responseBody: text3, durationMs: Date.now() - started });
+    return { ok: res.ok, status: res.status, text: text3 };
+  }
   async refresh() {
     if (!this.session?.refreshToken) throw new AuthError("Glovo session expired. Run glovo_login again.");
-    const res = await globalThis.fetch(`${API}/oauth/refresh`, {
+    const res = await this.send("/oauth/refresh", {
       method: "POST",
       headers: this.baseHeaders(),
       body: JSON.stringify({ refreshToken: this.session.refreshToken })
     });
     if (!res.ok) throw new AuthError(`Glovo refresh failed (${res.status}). Run glovo_login again.`);
-    const data = await res.json();
+    const data = JSON.parse(res.text);
     const c = data?.access?.accessToken ? data.access : data;
     this.session = {
       ...this.session,
@@ -190224,29 +190267,30 @@ var GlovoClient = class {
     if (status.secondsLeft > 60) return this.session.accessToken;
     return this.refresh();
   }
-  async call(path2, { method = "GET", body, auth = false, allowNotFound = false } = {}) {
+  async call(path3, { method = "GET", body, auth = false, allowNotFound = false } = {}) {
     if (auth) await this.ensureAuth();
-    const res = await globalThis.fetch(`${API}${path2}`, {
-      method,
-      headers: this.baseHeaders({ auth }),
-      ...body === void 0 ? {} : { body: JSON.stringify(body) }
-    });
-    if (res.status === 401 || res.status === 403) {
-      if (auth && this.session?.refreshToken) {
-        await this.refresh();
-        return this.call(path2, { method, body, auth, allowNotFound });
+    const payload = body === void 0 ? void 0 : JSON.stringify(body);
+    const label = `${method} ${safePath(path3.split("?")[0])}`;
+    for (let refreshes = 0; ; refreshes += 1) {
+      const res = await this.send(path3, { method, headers: this.baseHeaders({ auth }), body: payload });
+      if (res.status === 401 || res.status === 403) {
+        if (auth && this.session?.refreshToken && refreshes < MAX_AUTH_REFRESHES) {
+          console.error(JSON.stringify({ event: "auth_refresh", label, status: res.status, attempt: refreshes + 1, max: MAX_AUTH_REFRESHES }));
+          await this.refresh();
+          continue;
+        }
+        throw authFailure(label, res, { auth, refreshes });
       }
-      throw new AuthError(`Glovo auth failed (${res.status}). Run glovo_login first.`);
+      if (res.status === 204 || allowNotFound && res.status === 404) return null;
+      if (!res.ok) {
+        const text3 = res.text.slice(0, 300);
+        const error51 = res.status === 429 ? new RateLimitError(`${label} -> ${res.status}: ${safeErrorBody(text3)}`) : new Error(`${label} -> ${res.status}: ${safeErrorBody(text3)}`);
+        error51.status = res.status;
+        error51.exceptionName = errorName(text3);
+        throw error51;
+      }
+      return res.text ? JSON.parse(res.text) : null;
     }
-    if (res.status === 204 || allowNotFound && res.status === 404) return null;
-    if (!res.ok) {
-      const text3 = (await res.text()).slice(0, 300);
-      const message = `${method} ${safePath(path2.split("?")[0])} -> ${res.status}: ${safeErrorBody(text3)}`;
-      const error51 = res.status === 429 ? new RateLimitError(message) : new Error(message);
-      error51.status = res.status;
-      throw error51;
-    }
-    return res.json();
   }
   getMe() {
     return this.call("/v3/me", { auth: true });
@@ -190290,8 +190334,8 @@ var GlovoClient = class {
       qs.set("link", contentSlug);
     }
     if (consents) qs.set("consents", consents);
-    const path2 = useV4 ? `/v4/stores/${storeId}/addresses/${storeAddressId}/content/main` : `/v3/stores/${storeId}/addresses/${storeAddressId}/content`;
-    return this.call(`${path2}${qs.toString() ? `?${qs}` : ""}`, { auth });
+    const path3 = useV4 ? `/v4/stores/${storeId}/addresses/${storeAddressId}/content/main` : `/v3/stores/${storeId}/addresses/${storeAddressId}/content`;
+    return this.call(`${path3}${qs.toString() ? `?${qs}` : ""}`, { auth });
   }
   getStoreCatalog(storeId, storeAddressId, contentUri, { auth = true } = {}) {
     const url2 = new URL(String(contentUri || ""), API);
@@ -190349,95 +190393,64 @@ var GlovoClient = class {
     if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
     return this.call(`/v1/authenticated/customers/${id}/baskets/stores/${storeId}`, { auth: true, allowNotFound: true });
   }
-  createBasket({ storeId, storeAddressId, storeCategoryId, product }) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    if (!storeCategoryId || Number(storeCategoryId) === 0) throw new Error("storeCategoryId is required for new basket creation.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets`, {
-      method: "POST",
-      auth: true,
-      body: {
-        products: [product],
-        storeId: asNumberIfNumeric(storeId),
-        storeAddressId: asNumberIfNumeric(storeAddressId),
-        storeCategoryId: asNumberIfNumeric(storeCategoryId),
-        handlingStrategy: "DELIVERY"
-      }
-    });
+  // Glovo web Cart SDK v2: always returns a basket for the store; a store without one yields a DRAFT basket
+  // with a fresh basketId that only becomes real on the first PUT. The v1 POST create endpoint now answers 403.
+  getStoreBasket(storeId, storeAddressId) {
+    if (storeId == null || storeId === "") throw new Error("storeId is required.");
+    if (storeAddressId == null || storeAddressId === "") throw new Error("storeAddressId is required.");
+    const params2 = new URLSearchParams({ storeAddressId: String(storeAddressId) });
+    return this.call(`/v2/baskets/stores/${encodeURIComponent(storeId)}?${params2.toString()}`, { auth: true });
   }
-  updateBasketProducts(basketId, payload) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets/${encodeURIComponent(basketId)}/products`, {
+  putBasket(basketId, basket) {
+    return this.call(`/v2/baskets/${encodeURIComponent(basketId)}`, {
       method: "PUT",
       auth: true,
-      body: payload
-    });
-  }
-  updateProductQuantity(basketId, payload) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets/${encodeURIComponent(basketId)}/products/quantity`, {
-      method: "PATCH",
-      auth: true,
-      body: payload
+      body: basket
     });
   }
   deleteBasket(basketId) {
-    const id = this.session?.customerId || this.session?.customer?.id;
-    if (!id) throw new AuthError("No customer id in Glovo session. Run glovo_login again.");
-    return this.call(`/v1/authenticated/customers/${id}/baskets/${encodeURIComponent(basketId)}`, {
+    return this.call(`/v2/baskets/${encodeURIComponent(basketId)}`, {
       method: "DELETE",
       auth: true,
       allowNotFound: true
     });
   }
+  // Every basket write goes through the web Cart SDK v2 shape: read the store basket, change a clone,
+  // PUT the whole basket back. A stale basket version is re-read and retried once, like the web client.
+  async updateStoreBasket(storeId, storeAddressId, change) {
+    for (let attempt = 0; ; attempt += 1) {
+      const basket = await this.getStoreBasket(storeId, storeAddressId);
+      if (!basket?.basketId) throw new Error(`Glovo returned no basket for store ${storeId}.`);
+      try {
+        return await this.putBasket(basket.basketId, change(basket));
+      } catch (error51) {
+        if (attempt === 0 && error51?.exceptionName === "OLD_BASKET_VERSION") continue;
+        throw error51;
+      }
+    }
+  }
+  async storeAddressIdForBasket(storeId, storeAddressId) {
+    if (storeAddressId != null && storeAddressId !== "") return storeAddressId;
+    const basket = normalizeBasketList(await this.getBaskets()).find((entry) => String(entry.storeId) === String(storeId));
+    if (!basket?.storeAddressId) throw new Error(`No active basket for store ${storeId}.`);
+    return basket.storeAddressId;
+  }
   async addToBasket({ storeId, storeAddressId, storeCategoryId, productId, externalId, storeProductId, quantity = 1, selectedOptions = [], productView = null }) {
     if (productView) validateSelectedOptions(productView, selectedOptions);
     const product = basketProduct({ productId, externalId, storeProductId, quantity, selectedOptions, productView });
-    const basket = await this.getBasketByStore(storeId);
-    if (!basket) return this.createBasket({ storeId, storeAddressId, storeCategoryId, product });
-    const existing = findBasketProduct(basket, { productId, storeProductId });
-    if (existing?.ids?.basketProductId) {
-      return this.updateProductQuantity(basket.basketId, {
-        handlingStrategy: basket.handlingStrategy || "DELIVERY",
-        basketVersion: basket.basketVersion,
-        products: [{ basketProductId: existing.ids.basketProductId, quantity: (existing.quantity?.increments || 0) + quantity }]
-      });
-    }
-    return this.updateBasketProducts(basket.basketId, {
-      ...basket,
-      products: [...basket.products || [], product]
+    return this.updateStoreBasket(storeId, storeAddressId, (basket) => basketWithProduct(basket, product, { storeCategoryId }));
+  }
+  async setQuantity({ storeId, storeAddressId, productId, storeProductId, basketProductId, quantity }) {
+    const addressId = await this.storeAddressIdForBasket(storeId, storeAddressId);
+    return this.updateStoreBasket(storeId, addressId, (basket) => {
+      if (!basket.products?.length) throw new Error(`No active basket for store ${storeId}.`);
+      const line = findBasketProduct(basket, { productId, storeProductId, basketProductId });
+      if (!line?.ids?.basketProductId) throw new Error("Product is not in the basket.");
+      return basketWithQuantity(basket, line.ids.basketProductId, quantity);
     });
   }
-  async setQuantity({ storeId, productId, storeProductId, basketProductId, quantity }) {
-    const basket = await this.getBasketByStore(storeId);
-    if (!basket?.basketId) throw new Error(`No active basket for store ${storeId}.`);
-    const product = findBasketProduct(basket, { productId, storeProductId, basketProductId });
-    const id = basketProductId || product?.ids?.basketProductId;
-    if (!id) throw new Error("Product is not in the basket.");
-    if (quantity <= 0) return this.updateProductQuantity(basket.basketId, {
-      handlingStrategy: basket.handlingStrategy || "DELIVERY",
-      basketVersion: basket.basketVersion,
-      products: [{ basketProductId: id, quantity: 0 }]
-    });
-    return this.updateProductQuantity(basket.basketId, {
-      handlingStrategy: basket.handlingStrategy || "DELIVERY",
-      basketVersion: basket.basketVersion,
-      products: [{ basketProductId: id, quantity }]
-    });
-  }
-  async removeFromBasket({ storeId, productId, storeProductId, basketProductId }) {
-    const basket = await this.getBasketByStore(storeId);
-    if (!basket?.basketId) throw new Error(`No active basket for store ${storeId}.`);
-    const product = findBasketProduct(basket, { productId, storeProductId, basketProductId });
-    const id = basketProductId || product?.ids?.basketProductId;
-    if (!id) throw new Error("Product is not in the basket.");
-    return this.updateProductQuantity(basket.basketId, {
-      handlingStrategy: basket.handlingStrategy || "DELIVERY",
-      basketVersion: basket.basketVersion,
-      products: [{ basketProductId: id, quantity: 0 }]
-    });
+  removeFromBasket({ storeId, storeAddressId, productId, storeProductId, basketProductId }) {
+    return this.setQuantity({ storeId, storeAddressId, productId, storeProductId, basketProductId, quantity: 0 });
   }
   getOrders({ offset = 0, limit = 15 } = {}) {
     const params2 = new URLSearchParams({ offset: String(offset), limit: String(limit) });
@@ -191167,6 +191180,36 @@ function basketProduct({ productId, externalId, storeProductId, quantity = 1, se
   if (customizations.length) product.customizations = customizations;
   return product;
 }
+function customizationKey(customizations) {
+  return (Array.isArray(customizations) ? customizations : []).map((c) => `${c?.ids?.groupLegacyId ?? c?.ids?.groupId ?? ""}:${c?.ids?.legacyId ?? c?.ids?.externalId ?? c?.ids?.id ?? ""}x${c?.quantity?.increments ?? 1}`).sort().join("|");
+}
+function basketWithProduct(basket, product, { storeCategoryId } = {}) {
+  const next = structuredClone(basket);
+  next.products = Array.isArray(next.products) ? next.products : [];
+  next.handlingStrategy = next.handlingStrategy || "DELIVERY";
+  if (!next.products.length && (next.storeCategoryId == null || Number(next.storeCategoryId) === 0)) {
+    if (!storeCategoryId || Number(storeCategoryId) === 0) throw new Error("storeCategoryId is required for new basket creation.");
+    next.storeCategoryId = asNumberIfNumeric(storeCategoryId);
+  }
+  const key = customizationKey(product.customizations);
+  const existing = next.products.find((line) => line?.ids?.id === product.ids.id && customizationKey(line.customizations) === key);
+  if (existing) existing.quantity = { ...existing.quantity, increments: (existing.quantity?.increments || 0) + product.quantity.increments };
+  else next.products.push(product);
+  return next;
+}
+function basketWithQuantity(basket, basketProductId, quantity) {
+  const next = structuredClone(basket);
+  next.products = Array.isArray(next.products) ? next.products : [];
+  const index = next.products.findIndex((line) => line?.ids?.basketProductId === String(basketProductId));
+  if (index === -1) throw new Error("Product is not in the basket.");
+  if (quantity <= 0) next.products.splice(index, 1);
+  else next.products[index].quantity = { ...next.products[index].quantity, increments: quantity };
+  return next;
+}
+function normalizeBasketList(raw) {
+  if (Array.isArray(raw)) return raw;
+  return raw?.baskets || raw?.data?.baskets || [];
+}
 function storeCategoryIdFromStore(store) {
   return store?.categoryId ?? store?.data?.categoryId ?? store?.store?.categoryId ?? null;
 }
@@ -191401,6 +191444,107 @@ async function runLogin(sessionPath, { timeoutMs = 5 * 6e4 } = {}) {
   } finally {
     await browser.close();
   }
+}
+
+// src/glovo/http-log.mjs
+import { appendFileSync, chmodSync as chmodSync2, mkdirSync as mkdirSync3, readdirSync, rmSync as rmSync2, statSync as statSync2 } from "node:fs";
+import path from "node:path";
+var FILE_PATTERN = /^glovo-http-(\d{4}-\d{2}-\d{2})\.log$/;
+var SECRET_KEY = /(authorization|cookie|token|secret|password|passwd|api[-_]?key|credential|session[-_]?key|code[-_]?verifier)/i;
+var JWT = /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g;
+var BEARER = /\bBearer\s+[A-Za-z0-9._~+/=-]+/gi;
+var REDACTED = "[redacted]";
+function localDate(ms) {
+  const d = new Date(ms);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function redactString(value2) {
+  return String(value2).replace(JWT, REDACTED).replace(BEARER, `Bearer ${REDACTED}`);
+}
+function redactSecrets(value2, depth = 0) {
+  if (value2 == null) return value2;
+  if (typeof value2 === "string") return redactString(value2);
+  if (typeof value2 !== "object") return value2;
+  if (depth > 40) return "[depth]";
+  if (Array.isArray(value2)) return value2.map((item) => redactSecrets(item, depth + 1));
+  return Object.fromEntries(Object.entries(value2).map(([key, item]) => [key, SECRET_KEY.test(key) && item != null && item !== "" ? REDACTED : redactSecrets(item, depth + 1)]));
+}
+function redactHeaders(headers) {
+  const entries = typeof headers?.entries === "function" ? [...headers.entries()] : Object.entries(headers || {});
+  return Object.fromEntries(entries.map(([key, value2]) => [key, SECRET_KEY.test(key) ? REDACTED : redactString(value2)]));
+}
+function redactUrl(raw) {
+  try {
+    const url2 = new URL(raw);
+    for (const key of [...url2.searchParams.keys()]) {
+      if (SECRET_KEY.test(key)) url2.searchParams.set(key, REDACTED);
+    }
+    return redactString(url2.toString());
+  } catch {
+    return redactString(raw);
+  }
+}
+function redactBody(text3, maxChars) {
+  if (text3 == null || text3 === "") return void 0;
+  let body;
+  try {
+    body = redactSecrets(JSON.parse(text3));
+  } catch {
+    body = redactString(text3);
+  }
+  const serialized = typeof body === "string" ? body : JSON.stringify(body);
+  if (serialized.length <= maxChars) return body;
+  return { truncated: true, length: serialized.length, head: serialized.slice(0, maxChars) };
+}
+function createHttpLog({ dir, retentionDays = 3, maxBodyChars = 128 * 1024, now = Date.now } = {}) {
+  if (!dir) throw new Error("HTTP log directory is required.");
+  let prunedFor = null;
+  const prune = (today) => {
+    if (prunedFor === today) return;
+    prunedFor = today;
+    const cutoff = /* @__PURE__ */ new Date(`${today}T00:00:00`);
+    cutoff.setDate(cutoff.getDate() - (Math.max(1, retentionDays) - 1));
+    const oldest = localDate(cutoff.getTime());
+    try {
+      for (const name of readdirSync(dir)) {
+        const match = FILE_PATTERN.exec(name);
+        if (match && match[1] < oldest) rmSync2(path.join(dir, name), { force: true });
+      }
+    } catch {
+    }
+  };
+  const write = (entry) => {
+    try {
+      const ts = now();
+      const today = localDate(ts);
+      mkdirSync3(dir, { recursive: true, mode: 448 });
+      if ((statSync2(dir).mode & 511) !== 448) chmodSync2(dir, 448);
+      prune(today);
+      const file2 = path.join(dir, `glovo-http-${today}.log`);
+      appendFileSync(file2, `${JSON.stringify({ ts: new Date(ts).toISOString(), ...entry })}
+`, { mode: 384 });
+    } catch {
+    }
+  };
+  return {
+    dir,
+    maxBodyChars,
+    write,
+    record({ method, url: url2, requestHeaders, requestBody, status, responseHeaders, responseBody, durationMs, error: error51, attempt }) {
+      write({
+        method,
+        url: redactUrl(url2),
+        ...attempt ? { attempt } : {},
+        request: {
+          headers: redactHeaders(requestHeaders),
+          ...requestBody === void 0 ? {} : { body: redactBody(requestBody, maxBodyChars) }
+        },
+        ...status === void 0 ? {} : { response: { status, headers: redactHeaders(responseHeaders), body: redactBody(responseBody, maxBodyChars) } },
+        ...error51 ? { error: redactString(error51) } : {},
+        duration_ms: durationMs
+      });
+    }
+  };
 }
 
 // src/glovo/venue-model.mjs
@@ -191670,10 +191814,10 @@ function text2(value2) {
   return value2?.text?.text ?? value2?.text ?? value2?.label ?? value2;
 }
 function actionParams(actions = []) {
-  const path2 = actions.find((action) => action?.type === "NAVIGATION" && action?.data?.path)?.data?.path;
-  if (!path2) return new URLSearchParams();
+  const path3 = actions.find((action) => action?.type === "NAVIGATION" && action?.data?.path)?.data?.path;
+  if (!path3) return new URLSearchParams();
   try {
-    return new URL(path2, "https://glovo.invalid").searchParams;
+    return new URL(path3, "https://glovo.invalid").searchParams;
   } catch {
     return new URLSearchParams();
   }
@@ -192148,13 +192292,17 @@ async function getSuggestions(client, input, {
 }
 
 // src/shopping-guide.md
-var shopping_guide_default = '# Glovo Shopping Guide\n\nUse Glovo read-only tools before changing a basket.\n\n- Browse stores with `glovo_browse_stores`; category `4` is groceries and category `1` is food.\n- Open a store with `glovo_get_store`, then use `glovo_get_store_menu`, `glovo_get_store_recommendations`, `glovo_get_store_order_options`, or `glovo_search_store_items`.\n- For "again," "new," or "different item" requests, call `glovo_get_suggestions` first. It ranks familiar venues from full card history, resolves current products, reports coverage, and never changes the basket.\n- Google quality is optional external evidence. Request review text only when the user explicitly asks, and preserve Google/author attribution.\n- For repeat orders, call `glovo_plan_reorder`, inspect every chosen candidate with `glovo_get_product`, and reselect required options. The plan itself never changes the basket.\n- To add an item, use IDs returned by search/product tools. Never invent `store_id`, `store_address_id`, `product_id`, `external_id`, or `store_product_id`.\n- Basket tools mutate the real Glovo basket but do not checkout. The user reviews and pays in Glovo.\n- If a tool says the session is missing or expired, run `glovo_login`.\n';
+var shopping_guide_default = '# Glovo Shopping Guide\r\n\r\nUse Glovo read-only tools before changing a basket.\r\n\r\n- Browse stores with `glovo_browse_stores`; category `4` is groceries and category `1` is food.\r\n- Open a store with `glovo_get_store`, then use `glovo_get_store_menu`, `glovo_get_store_recommendations`, `glovo_get_store_order_options`, or `glovo_search_store_items`.\r\n- For "again," "new," or "different item" requests, call `glovo_get_suggestions` first. It ranks familiar venues from full card history, resolves current products, reports coverage, and never changes the basket.\r\n- Google quality is optional external evidence. Request review text only when the user explicitly asks, and preserve Google/author attribution.\r\n- For repeat orders, call `glovo_plan_reorder`, inspect every chosen candidate with `glovo_get_product`, and reselect required options. The plan itself never changes the basket.\r\n- To add an item, use IDs returned by search/product tools. Never invent `store_id`, `store_address_id`, `product_id`, `external_id`, or `store_product_id`.\r\n- Basket tools mutate the real Glovo basket but do not checkout. The user reviews and pays in Glovo.\r\n- If a tool says the session is missing or expired, run `glovo_login`.\r\n';
 
 // src/server.mjs
-var __dirname2 = path.dirname(fileURLToPath2(import.meta.url));
-var SESSION_PATH = process.env.GLOVO_SESSION_PATH || path.join(process.env.CLAUDE_PLUGIN_DATA || path.join(os.homedir(), ".glovo"), "session.json");
+var __dirname2 = path2.dirname(fileURLToPath2(import.meta.url));
+var SESSION_PATH = process.env.GLOVO_SESSION_PATH || path2.join(process.env.CLAUDE_PLUGIN_DATA || path2.join(os.homedir(), ".glovo"), "session.json");
+var HTTP_LOG = process.env.GLOVO_HTTP_LOG === "0" ? null : createHttpLog({
+  dir: process.env.GLOVO_LOG_DIR || path2.join(path2.dirname(SESSION_PATH), "logs"),
+  retentionDays: Number(process.env.GLOVO_LOG_RETENTION_DAYS) || 3
+});
 function getClient() {
-  return new GlovoClient(SESSION_PATH).reload();
+  return new GlovoClient(SESSION_PATH, { httpLog: HTTP_LOG }).reload();
 }
 var json2 = (data) => ({ content: [{ type: "text", text: JSON.stringify(data, null, 2) }] });
 var fail = (text3) => ({ content: [{ type: "text", text: text3 }], isError: true });
@@ -192163,7 +192311,7 @@ function tool(handler) {
     try {
       return await handler(args, getClient());
     } catch (e) {
-      if (e instanceof AuthError) return fail(e.message);
+      if (e instanceof AuthError || e instanceof ForbiddenError) return fail(e.message);
       if (e?.code === "ENOENT") return fail("Not signed in yet. Run glovo_login first.");
       return fail(`Error: ${e.message}`);
     }
@@ -192173,7 +192321,7 @@ var INSTRUCTIONS = `Use Glovo read-only tools before mutating the real basket.
 
 Do not checkout or pay. Basket tools only prepare the user's real Glovo basket for later human review.
 If auth is missing or expired, call glovo_login and let the user sign in in the browser.`;
-var server2 = new McpServer({ name: "glovo", version: "0.2.1" }, { instructions: INSTRUCTIONS });
+var server2 = new McpServer({ name: "glovo", version: "0.2.2" }, { instructions: INSTRUCTIONS });
 server2.registerTool(
   "glovo_get_shopping_guide",
   {
@@ -192606,6 +192754,7 @@ server2.registerTool(
     description: "Set exact product quantity in the real Glovo basket. Quantity 0 removes it. Do not call unless explicitly requested.",
     inputSchema: {
       store_id: external_exports.union([external_exports.string(), external_exports.number()]),
+      store_address_id: external_exports.union([external_exports.string(), external_exports.number()]).optional().describe("Defaults to the store address of the existing basket."),
       product_id: external_exports.union([external_exports.string(), external_exports.number()]).optional(),
       store_product_id: external_exports.union([external_exports.string(), external_exports.number()]).optional(),
       basket_product_id: external_exports.string().optional(),
@@ -192613,7 +192762,7 @@ server2.registerTool(
     }
   },
   tool(
-    async ({ store_id, product_id, store_product_id, basket_product_id, quantity }, c) => json2(compactBasket(await c.setQuantity({ storeId: store_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id, quantity })))
+    async ({ store_id, store_address_id, product_id, store_product_id, basket_product_id, quantity }, c) => json2(compactBasket(await c.setQuantity({ storeId: store_id, storeAddressId: store_address_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id, quantity })))
   )
 );
 server2.registerTool(
@@ -192623,13 +192772,14 @@ server2.registerTool(
     description: "Remove one product from the real Glovo basket. Do not call unless explicitly requested.",
     inputSchema: {
       store_id: external_exports.union([external_exports.string(), external_exports.number()]),
+      store_address_id: external_exports.union([external_exports.string(), external_exports.number()]).optional().describe("Defaults to the store address of the existing basket."),
       product_id: external_exports.union([external_exports.string(), external_exports.number()]).optional(),
       store_product_id: external_exports.union([external_exports.string(), external_exports.number()]).optional(),
       basket_product_id: external_exports.string().optional()
     }
   },
   tool(
-    async ({ store_id, product_id, store_product_id, basket_product_id }, c) => json2(compactBasket(await c.removeFromBasket({ storeId: store_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id })))
+    async ({ store_id, store_address_id, product_id, store_product_id, basket_product_id }, c) => json2(compactBasket(await c.removeFromBasket({ storeId: store_id, storeAddressId: store_address_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id })))
   )
 );
 var transport = new StdioServerTransport2();

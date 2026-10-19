@@ -7,6 +7,7 @@ import { z } from "zod";
 import {
   GlovoClient,
   AuthError,
+  ForbiddenError,
   compactStore,
   compactStoreWall,
   compactLocationSearch,
@@ -24,14 +25,22 @@ import {
   orderStatsFromCards,
 } from "./glovo/api.mjs";
 import { runLogin } from "./auth/login.mjs";
+import { createHttpLog } from "./glovo/http-log.mjs";
 import { getSuggestions } from "./glovo/suggestions.mjs";
 import SHOPPING_GUIDE from "./shopping-guide.md";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SESSION_PATH = process.env.GLOVO_SESSION_PATH || path.join(process.env.CLAUDE_PLUGIN_DATA || path.join(os.homedir(), ".glovo"), "session.json");
 
+const HTTP_LOG = process.env.GLOVO_HTTP_LOG === "0"
+  ? null
+  : createHttpLog({
+    dir: process.env.GLOVO_LOG_DIR || path.join(path.dirname(SESSION_PATH), "logs"),
+    retentionDays: Number(process.env.GLOVO_LOG_RETENTION_DAYS) || 3,
+  });
+
 function getClient() {
-  return new GlovoClient(SESSION_PATH).reload();
+  return new GlovoClient(SESSION_PATH, { httpLog: HTTP_LOG }).reload();
 }
 
 const json = (data) => ({ content: [{ type: "text", text: JSON.stringify(data, null, 2) }] });
@@ -42,7 +51,7 @@ function tool(handler) {
     try {
       return await handler(args, getClient());
     } catch (e) {
-      if (e instanceof AuthError) return fail(e.message);
+      if (e instanceof AuthError || e instanceof ForbiddenError) return fail(e.message);
       if (e?.code === "ENOENT") return fail("Not signed in yet. Run glovo_login first.");
       return fail(`Error: ${e.message}`);
     }
@@ -54,7 +63,7 @@ const INSTRUCTIONS = `Use Glovo read-only tools before mutating the real basket.
 Do not checkout or pay. Basket tools only prepare the user's real Glovo basket for later human review.
 If auth is missing or expired, call glovo_login and let the user sign in in the browser.`;
 
-const server = new McpServer({ name: "glovo", version: "0.2.1" }, { instructions: INSTRUCTIONS });
+const server = new McpServer({ name: "glovo", version: "0.2.2" }, { instructions: INSTRUCTIONS });
 
 server.registerTool(
   "glovo_get_shopping_guide",
@@ -517,14 +526,15 @@ server.registerTool(
     description: "Set exact product quantity in the real Glovo basket. Quantity 0 removes it. Do not call unless explicitly requested.",
     inputSchema: {
       store_id: z.union([z.string(), z.number()]),
+      store_address_id: z.union([z.string(), z.number()]).optional().describe("Defaults to the store address of the existing basket."),
       product_id: z.union([z.string(), z.number()]).optional(),
       store_product_id: z.union([z.string(), z.number()]).optional(),
       basket_product_id: z.string().optional(),
       quantity: z.number().int().min(0),
     },
   },
-  tool(async ({ store_id, product_id, store_product_id, basket_product_id, quantity }, c) =>
-    json(compactBasket(await c.setQuantity({ storeId: store_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id, quantity }))),
+  tool(async ({ store_id, store_address_id, product_id, store_product_id, basket_product_id, quantity }, c) =>
+    json(compactBasket(await c.setQuantity({ storeId: store_id, storeAddressId: store_address_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id, quantity }))),
   ),
 );
 
@@ -535,13 +545,14 @@ server.registerTool(
     description: "Remove one product from the real Glovo basket. Do not call unless explicitly requested.",
     inputSchema: {
       store_id: z.union([z.string(), z.number()]),
+      store_address_id: z.union([z.string(), z.number()]).optional().describe("Defaults to the store address of the existing basket."),
       product_id: z.union([z.string(), z.number()]).optional(),
       store_product_id: z.union([z.string(), z.number()]).optional(),
       basket_product_id: z.string().optional(),
     },
   },
-  tool(async ({ store_id, product_id, store_product_id, basket_product_id }, c) =>
-    json(compactBasket(await c.removeFromBasket({ storeId: store_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id }))),
+  tool(async ({ store_id, store_address_id, product_id, store_product_id, basket_product_id }, c) =>
+    json(compactBasket(await c.removeFromBasket({ storeId: store_id, storeAddressId: store_address_id, productId: product_id, storeProductId: store_product_id, basketProductId: basket_product_id }))),
   ),
 );
 

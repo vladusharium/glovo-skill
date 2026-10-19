@@ -1,7 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import { GlovoClient, compactBasket, compactProductView, compactSearch, storeCategoryIdFromStore, validateSelectedOptions, withRetry } from "../src/glovo/api.mjs";
-import { assertMutationCompatible, createBasketSnapshot, persistPrivateSnapshot, withBasketRestore } from "./basket-safety.mjs";
+import { assertMutationCompatible, createBasketSnapshot, persistPrivateSnapshot, readFullBaskets, withBasketRestore } from "./basket-safety.mjs";
 
 const sessionPath = process.env.GLOVO_SESSION_PATH || path.join(os.homedir(), ".glovo", "session.json");
 const mutate = process.argv.includes("--mutate");
@@ -117,7 +117,7 @@ if (!mutationEnv) {
 
 assertCandidate(candidate);
 
-const original = await client.getBaskets();
+const original = await readFullBaskets(client);
 const snapshot = createBasketSnapshot(original);
 assertMutationCompatible(snapshot, storeId);
 if (originalContainsProduct(snapshot, storeId, productId, externalId)) {
@@ -140,14 +140,14 @@ await withBasketRestore(client, snapshot, storeId, async () => {
     return line;
   });
   console.log(JSON.stringify({ event: "stage_add", line_present: true, selected_customizations: true }));
-  await client.setQuantity({ storeId, basketProductId: basketLine.basket_product_id, quantity: 2 });
+  await client.setQuantity({ storeId, storeAddressId, basketProductId: basketLine.basket_product_id, quantity: 2 });
   const setLine = await waitForStage("set", async () => {
     const line = findTestLine(compactBasket(await client.getBasketByStore(storeId)));
     if (!line?.basket_product_id || Number(line?.quantity) !== 2) return null;
     return line;
   });
   console.log(JSON.stringify({ event: "stage_set", quantity_two: true, id_rotated: String(setLine.basket_product_id) !== String(basketLine.basket_product_id) }));
-  await client.removeFromBasket({ storeId, basketProductId: setLine.basket_product_id });
+  await client.removeFromBasket({ storeId, storeAddressId, basketProductId: setLine.basket_product_id });
   await waitForStage("remove", async () => !findTestLine(compactBasket(await client.getBasketByStore(storeId))));
   await waitForStage("remove-global", async () => assertLineAbsentFromGlobal(await client.getBaskets()));
   console.log(JSON.stringify({ event: "stage_remove", line_absent_store: true, line_absent_global: true }));

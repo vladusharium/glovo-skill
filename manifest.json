@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "glovo",
   "display_name": "Glovo",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Get personalized live Glovo suggestions, inspect products and history, and prepare baskets without checkout.",
   "author": {
     "name": "Denya"

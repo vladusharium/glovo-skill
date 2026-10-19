@@ -85,6 +85,6 @@ for (const [name, command] of Object.entries(packageJson.scripts || {})) {
 
 const apiSource = readFileSync("src/glovo/api.mjs", "utf8");
 assert.equal(apiSource.includes("await fetch("), false);
-assert.equal((apiSource.match(/globalThis\.fetch/g) || []).length, 2);
+assert.equal((apiSource.match(/globalThis\.fetch/g) || []).length, 1);
 
 console.log("browser-boundary.test: browser automation limited to user-initiated login/session bootstrap");
